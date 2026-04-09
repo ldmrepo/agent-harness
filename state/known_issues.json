@@ -1,0 +1,141 @@
+{
+  "meta": {
+    "template_version": "{{HARNESS_TEMPLATE_VERSION}}",
+    "project_name": "{{PROJECT_NAME}}",
+    "repository_name": "{{REPOSITORY_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "schema_version": "{{KNOWN_ISSUES_SCHEMA_VERSION}}"
+  },
+  "policy": {
+    "allow_issue_autoclose": {{ALLOW_ISSUE_AUTOCLOSE}},
+    "require_verification_before_close": {{REQUIRE_VERIFICATION_BEFORE_CLOSE}},
+    "require_review_for_high_risk_issue": {{REQUIRE_REVIEW_FOR_HIGH_RISK_ISSUE}},
+    "default_issue_owner_role": "{{DEFAULT_ISSUE_OWNER_ROLE}}",
+    "severity_scale": "{{SEVERITY_SCALE}}",
+    "impact_scale": "{{IMPACT_SCALE}}"
+  },
+  "summary": {
+    "open_issue_count": {{OPEN_ISSUE_COUNT}},
+    "blocked_issue_count": {{BLOCKED_ISSUE_COUNT}},
+    "high_risk_issue_count": {{HIGH_RISK_ISSUE_COUNT}},
+    "last_reviewed_at": "{{LAST_REVIEWED_AT}}",
+    "last_reviewed_by": "{{LAST_REVIEWED_BY}}"
+  },
+  "issues": [
+    {
+      "issue_id": "{{ISSUE_ID_001}}",
+      "title": "{{ISSUE_TITLE_001}}",
+      "category": "{{ISSUE_CATEGORY_001}}",
+      "type": "{{ISSUE_TYPE_001}}",
+      "description": "{{ISSUE_DESCRIPTION_001}}",
+      "status": "{{ISSUE_STATUS_001}}",
+      "severity": "{{ISSUE_SEVERITY_001}}",
+      "impact": "{{ISSUE_IMPACT_001}}",
+      "risk_level": "{{ISSUE_RISK_LEVEL_001}}",
+      "detected_in_session_id": "{{DETECTED_IN_SESSION_ID_001}}",
+      "detected_at": "{{DETECTED_AT_001}}",
+      "detected_by_role": "{{DETECTED_BY_ROLE_001}}",
+      "owner_role": "{{OWNER_ROLE_001}}",
+      "related_work_item_id": "{{RELATED_WORK_ITEM_ID_001}}",
+      "related_files": [
+        "{{RELATED_FILE_001_01}}",
+        "{{RELATED_FILE_001_02}}",
+        "{{RELATED_FILE_001_03}}"
+      ],
+      "reproduction_steps": [
+        "{{REPRO_STEP_001_01}}",
+        "{{REPRO_STEP_001_02}}",
+        "{{REPRO_STEP_001_03}}"
+      ],
+      "expected_behavior": "{{EXPECTED_BEHAVIOR_001}}",
+      "actual_behavior": "{{ACTUAL_BEHAVIOR_001}}",
+      "workaround": [
+        "{{WORKAROUND_001_01}}",
+        "{{WORKAROUND_001_02}}"
+      ],
+      "root_cause_notes": [
+        "{{ROOT_CAUSE_NOTE_001_01}}",
+        "{{ROOT_CAUSE_NOTE_001_02}}"
+      ],
+      "verification_required": {{VERIFICATION_REQUIRED_001}},
+      "review_required": {{REVIEW_REQUIRED_001}},
+      "verification_type": "{{VERIFICATION_TYPE_001}}",
+      "verification_commands": [
+        "{{VERIFY_COMMAND_001_01}}",
+        "{{VERIFY_COMMAND_001_02}}"
+      ],
+      "blocker": {{BLOCKER_001}},
+      "blocked_reason": "{{BLOCKED_REASON_001}}",
+      "recovery_actions": [
+        "{{RECOVERY_ACTION_001_01}}",
+        "{{RECOVERY_ACTION_001_02}}"
+      ],
+      "rollback_strategy": [
+        "{{ROLLBACK_STRATEGY_001_01}}",
+        "{{ROLLBACK_STRATEGY_001_02}}"
+      ],
+      "close_conditions": [
+        "{{CLOSE_CONDITION_001_01}}",
+        "{{CLOSE_CONDITION_001_02}}"
+      ],
+      "closed_at": "{{CLOSED_AT_001}}",
+      "closed_by": "{{CLOSED_BY_001}}",
+      "notes": "{{NOTES_001}}",
+      "last_updated_at": "{{LAST_UPDATED_AT_001}}"
+    },
+    {
+      "issue_id": "{{ISSUE_ID_002}}",
+      "title": "{{ISSUE_TITLE_002}}",
+      "category": "{{ISSUE_CATEGORY_002}}",
+      "type": "{{ISSUE_TYPE_002}}",
+      "description": "{{ISSUE_DESCRIPTION_002}}",
+      "status": "{{ISSUE_STATUS_002}}",
+      "severity": "{{ISSUE_SEVERITY_002}}",
+      "impact": "{{ISSUE_IMPACT_002}}",
+      "risk_level": "{{ISSUE_RISK_LEVEL_002}}",
+      "detected_in_session_id": "{{DETECTED_IN_SESSION_ID_002}}",
+      "detected_at": "{{DETECTED_AT_002}}",
+      "detected_by_role": "{{DETECTED_BY_ROLE_002}}",
+      "owner_role": "{{OWNER_ROLE_002}}",
+      "related_work_item_id": "{{RELATED_WORK_ITEM_ID_002}}",
+      "related_files": [
+        "{{RELATED_FILE_002_01}}",
+        "{{RELATED_FILE_002_02}}"
+      ],
+      "reproduction_steps": [
+        "{{REPRO_STEP_002_01}}",
+        "{{REPRO_STEP_002_02}}"
+      ],
+      "expected_behavior": "{{EXPECTED_BEHAVIOR_002}}",
+      "actual_behavior": "{{ACTUAL_BEHAVIOR_002}}",
+      "workaround": [
+        "{{WORKAROUND_002_01}}"
+      ],
+      "root_cause_notes": [
+        "{{ROOT_CAUSE_NOTE_002_01}}"
+      ],
+      "verification_required": {{VERIFICATION_REQUIRED_002}},
+      "review_required": {{REVIEW_REQUIRED_002}},
+      "verification_type": "{{VERIFICATION_TYPE_002}}",
+      "verification_commands": [
+        "{{VERIFY_COMMAND_002_01}}"
+      ],
+      "blocker": {{BLOCKER_002}},
+      "blocked_reason": "{{BLOCKED_REASON_002}}",
+      "recovery_actions": [
+        "{{RECOVERY_ACTION_002_01}}"
+      ],
+      "rollback_strategy": [
+        "{{ROLLBACK_STRATEGY_002_01}}"
+      ],
+      "close_conditions": [
+        "{{CLOSE_CONDITION_002_01}}"
+      ],
+      "closed_at": "{{CLOSED_AT_002}}",
+      "closed_by": "{{CLOSED_BY_002}}",
+      "notes": "{{NOTES_002}}",
+      "last_updated_at": "{{LAST_UPDATED_AT_002}}"
+    }
+  ]
+}

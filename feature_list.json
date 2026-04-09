@@ -1,0 +1,172 @@
+[
+  {
+    "meta": {
+      "template_version": "{{HARNESS_TEMPLATE_VERSION}}",
+      "project_name": "{{PROJECT_NAME}}",
+      "repository_name": "{{REPOSITORY_NAME}}",
+      "created_at": "{{CREATED_AT}}",
+      "updated_at": "{{UPDATED_AT}}",
+      "default_branch": "{{DEFAULT_BRANCH}}",
+      "task_status_schema_version": "{{TASK_STATUS_SCHEMA_VERSION}}"
+    }
+  },
+  {
+    "id": "{{WORK_ITEM_ID_001}}",
+    "category": "{{WORK_ITEM_CATEGORY_001}}",
+    "type": "{{WORK_ITEM_TYPE_001}}",
+    "title": "{{WORK_ITEM_TITLE_001}}",
+    "description": "{{WORK_ITEM_DESCRIPTION_001}}",
+    "priority": {{WORK_ITEM_PRIORITY_001}},
+    "status": "{{WORK_ITEM_STATUS_001}}",
+    "passes": {{WORK_ITEM_PASSES_001}},
+    "verification_type": "{{VERIFICATION_TYPE_001}}",
+    "risk": "{{RISK_LEVEL_001}}",
+    "estimated_scope": "{{ESTIMATED_SCOPE_001}}",
+    "depends_on": [
+      "{{DEPENDENCY_001_01}}",
+      "{{DEPENDENCY_001_02}}"
+    ],
+    "owner_role": "{{OWNER_ROLE_001}}",
+    "selection_policy": "{{SELECTION_POLICY_001}}",
+    "files_expected": [
+      "{{EXPECTED_FILE_001_01}}",
+      "{{EXPECTED_FILE_001_02}}",
+      "{{EXPECTED_FILE_001_03}}"
+    ],
+    "steps": [
+      "{{STEP_001_01}}",
+      "{{STEP_001_02}}",
+      "{{STEP_001_03}}",
+      "{{STEP_001_04}}"
+    ],
+    "completion_criteria": [
+      "{{COMPLETION_CRITERIA_001_01}}",
+      "{{COMPLETION_CRITERIA_001_02}}",
+      "{{COMPLETION_CRITERIA_001_03}}"
+    ],
+    "verification_commands": [
+      "{{VERIFY_COMMAND_001_01}}",
+      "{{VERIFY_COMMAND_001_02}}"
+    ],
+    "rollback_strategy": [
+      "{{ROLLBACK_STRATEGY_001_01}}",
+      "{{ROLLBACK_STRATEGY_001_02}}"
+    ],
+    "notes": "{{NOTES_001}}",
+    "blocked_reason": "{{BLOCKED_REASON_001}}",
+    "last_verified_at": "{{LAST_VERIFIED_AT_001}}",
+    "last_verified_by": "{{LAST_VERIFIED_BY_001}}",
+    "review_required": {{REVIEW_REQUIRED_001}},
+    "full_verify_required": {{FULL_VERIFY_REQUIRED_001}},
+    "artifacts_expected": [
+      "{{ARTIFACT_EXPECTED_001_01}}",
+      "{{ARTIFACT_EXPECTED_001_02}}"
+    ]
+  },
+  {
+    "id": "{{WORK_ITEM_ID_002}}",
+    "category": "{{WORK_ITEM_CATEGORY_002}}",
+    "type": "{{WORK_ITEM_TYPE_002}}",
+    "title": "{{WORK_ITEM_TITLE_002}}",
+    "description": "{{WORK_ITEM_DESCRIPTION_002}}",
+    "priority": {{WORK_ITEM_PRIORITY_002}},
+    "status": "{{WORK_ITEM_STATUS_002}}",
+    "passes": {{WORK_ITEM_PASSES_002}},
+    "verification_type": "{{VERIFICATION_TYPE_002}}",
+    "risk": "{{RISK_LEVEL_002}}",
+    "estimated_scope": "{{ESTIMATED_SCOPE_002}}",
+    "depends_on": [
+      "{{DEPENDENCY_002_01}}",
+      "{{DEPENDENCY_002_02}}"
+    ],
+    "owner_role": "{{OWNER_ROLE_002}}",
+    "selection_policy": "{{SELECTION_POLICY_002}}",
+    "files_expected": [
+      "{{EXPECTED_FILE_002_01}}",
+      "{{EXPECTED_FILE_002_02}}",
+      "{{EXPECTED_FILE_002_03}}"
+    ],
+    "steps": [
+      "{{STEP_002_01}}",
+      "{{STEP_002_02}}",
+      "{{STEP_002_03}}",
+      "{{STEP_002_04}}"
+    ],
+    "completion_criteria": [
+      "{{COMPLETION_CRITERIA_002_01}}",
+      "{{COMPLETION_CRITERIA_002_02}}",
+      "{{COMPLETION_CRITERIA_002_03}}"
+    ],
+    "verification_commands": [
+      "{{VERIFY_COMMAND_002_01}}",
+      "{{VERIFY_COMMAND_002_02}}"
+    ],
+    "rollback_strategy": [
+      "{{ROLLBACK_STRATEGY_002_01}}",
+      "{{ROLLBACK_STRATEGY_002_02}}"
+    ],
+    "notes": "{{NOTES_002}}",
+    "blocked_reason": "{{BLOCKED_REASON_002}}",
+    "last_verified_at": "{{LAST_VERIFIED_AT_002}}",
+    "last_verified_by": "{{LAST_VERIFIED_BY_002}}",
+    "review_required": {{REVIEW_REQUIRED_002}},
+    "full_verify_required": {{FULL_VERIFY_REQUIRED_002}},
+    "artifacts_expected": [
+      "{{ARTIFACT_EXPECTED_002_01}}",
+      "{{ARTIFACT_EXPECTED_002_02}}"
+    ]
+  },
+  {
+    "id": "{{WORK_ITEM_ID_003}}",
+    "category": "{{WORK_ITEM_CATEGORY_003}}",
+    "type": "{{WORK_ITEM_TYPE_003}}",
+    "title": "{{WORK_ITEM_TITLE_003}}",
+    "description": "{{WORK_ITEM_DESCRIPTION_003}}",
+    "priority": {{WORK_ITEM_PRIORITY_003}},
+    "status": "{{WORK_ITEM_STATUS_003}}",
+    "passes": {{WORK_ITEM_PASSES_003}},
+    "verification_type": "{{VERIFICATION_TYPE_003}}",
+    "risk": "{{RISK_LEVEL_003}}",
+    "estimated_scope": "{{ESTIMATED_SCOPE_003}}",
+    "depends_on": [
+      "{{DEPENDENCY_003_01}}",
+      "{{DEPENDENCY_003_02}}"
+    ],
+    "owner_role": "{{OWNER_ROLE_003}}",
+    "selection_policy": "{{SELECTION_POLICY_003}}",
+    "files_expected": [
+      "{{EXPECTED_FILE_003_01}}",
+      "{{EXPECTED_FILE_003_02}}",
+      "{{EXPECTED_FILE_003_03}}"
+    ],
+    "steps": [
+      "{{STEP_003_01}}",
+      "{{STEP_003_02}}",
+      "{{STEP_003_03}}",
+      "{{STEP_003_04}}"
+    ],
+    "completion_criteria": [
+      "{{COMPLETION_CRITERIA_003_01}}",
+      "{{COMPLETION_CRITERIA_003_02}}",
+      "{{COMPLETION_CRITERIA_003_03}}"
+    ],
+    "verification_commands": [
+      "{{VERIFY_COMMAND_003_01}}",
+      "{{VERIFY_COMMAND_003_02}}"
+    ],
+    "rollback_strategy": [
+      "{{ROLLBACK_STRATEGY_003_01}}",
+      "{{ROLLBACK_STRATEGY_003_02}}"
+    ],
+    "notes": "{{NOTES_003}}",
+    "blocked_reason": "{{BLOCKED_REASON_003}}",
+    "last_verified_at": "{{LAST_VERIFIED_AT_003}}",
+    "last_verified_by": "{{LAST_VERIFIED_BY_003}}",
+    "review_required": {{REVIEW_REQUIRED_003}},
+    "full_verify_required": {{FULL_VERIFY_REQUIRED_003}},
+    "artifacts_expected": [
+      "{{ARTIFACT_EXPECTED_003_01}}",
+      "{{ARTIFACT_EXPECTED_003_02}}"
+    ]
+  }
+]

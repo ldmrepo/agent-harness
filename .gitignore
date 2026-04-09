@@ -1,0 +1,15 @@
+# Agent runtime artifacts
+.agent-logs/
+.agent-pids/
+
+# State checkpoints (generated at runtime)
+state/checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor swap files
+*.swp
+*.swo
+*~

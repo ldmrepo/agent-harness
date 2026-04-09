@@ -1,0 +1,56 @@
+{
+  "meta": {
+    "template_version": "{{HARNESS_TEMPLATE_VERSION}}",
+    "project_name": "{{PROJECT_NAME}}",
+    "repository_name": "{{REPOSITORY_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}"
+  },
+  "policy": {
+    "tuning_interval": "{{QA_TUNING_INTERVAL}}",
+    "min_sessions_before_tuning": "{{QA_MIN_SESSIONS_BEFORE_TUNING}}",
+    "track_missed_issues": true,
+    "track_false_rejections": true
+  },
+  "summary": {
+    "total_review_sessions": 0,
+    "total_missed_issues": 0,
+    "total_false_rejections": 0,
+    "last_tuning_date": "{{LAST_QA_TUNING_DATE}}",
+    "reviewer_prompt_version": "{{REVIEWER_PROMPT_VERSION}}"
+  },
+  "missed_issues": [
+    {
+      "id": "{{MISSED_ISSUE_ID_001}}",
+      "discovered_in_session": "{{DISCOVERED_SESSION_001}}",
+      "original_review_session": "{{ORIGINAL_REVIEW_SESSION_001}}",
+      "category": "{{MISSED_CATEGORY_001}}",
+      "severity": "{{MISSED_SEVERITY_001}}",
+      "description": "{{MISSED_DESCRIPTION_001}}",
+      "why_missed": "{{WHY_MISSED_001}}",
+      "prompt_gap": "{{PROMPT_GAP_001}}",
+      "remediation": "{{REMEDIATION_001}}",
+      "remediation_applied": "{{REMEDIATION_APPLIED_001}}"
+    }
+  ],
+  "false_rejections": [
+    {
+      "id": "{{FALSE_REJECTION_ID_001}}",
+      "session": "{{FALSE_REJECTION_SESSION_001}}",
+      "category": "{{FALSE_REJECTION_CATEGORY_001}}",
+      "description": "{{FALSE_REJECTION_DESCRIPTION_001}}",
+      "why_incorrect": "{{WHY_INCORRECT_001}}",
+      "prompt_gap": "{{FALSE_REJECTION_PROMPT_GAP_001}}"
+    }
+  ],
+  "tuning_history": [
+    {
+      "date": "{{TUNING_DATE_001}}",
+      "model_version": "{{TUNING_MODEL_VERSION_001}}",
+      "sessions_reviewed": "{{TUNING_SESSIONS_REVIEWED_001}}",
+      "missed_patterns_found": "{{TUNING_MISSED_PATTERNS_001}}",
+      "prompt_changes_made": "{{TUNING_PROMPT_CHANGES_001}}",
+      "notes": "{{TUNING_NOTES_001}}"
+    }
+  ]
+}

@@ -1,0 +1,167 @@
+{
+  "meta": {
+    "template_version": "{{HARNESS_TEMPLATE_VERSION}}",
+    "project_name": "{{PROJECT_NAME}}",
+    "repository_name": "{{REPOSITORY_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "schema_version": "{{BACKLOG_SCHEMA_VERSION}}",
+    "default_branch": "{{DEFAULT_BRANCH}}"
+  },
+  "policy": {
+    "selection_strategy": "{{BACKLOG_SELECTION_STRATEGY}}",
+    "allow_parallel_tasks": {{ALLOW_PARALLEL_TASKS}},
+    "max_active_tasks": {{MAX_ACTIVE_TASKS}},
+    "default_owner_role": "{{DEFAULT_OWNER_ROLE}}",
+    "require_dependency_resolution": {{REQUIRE_DEPENDENCY_RESOLUTION}},
+    "require_review_for_high_risk": {{REQUIRE_REVIEW_FOR_HIGH_RISK}}
+  },
+  "groups": [
+    {
+      "group_id": "{{GROUP_ID_001}}",
+      "group_name": "{{GROUP_NAME_001}}",
+      "group_type": "{{GROUP_TYPE_001}}",
+      "priority": {{GROUP_PRIORITY_001}},
+      "description": "{{GROUP_DESCRIPTION_001}}",
+      "items": [
+        {
+          "task_id": "{{TASK_ID_001_001}}",
+          "title": "{{TASK_TITLE_001_001}}",
+          "type": "{{TASK_TYPE_001_001}}",
+          "category": "{{TASK_CATEGORY_001_001}}",
+          "description": "{{TASK_DESCRIPTION_001_001}}",
+          "priority": {{TASK_PRIORITY_001_001}},
+          "status": "{{TASK_STATUS_001_001}}",
+          "passes": {{TASK_PASSES_001_001}},
+          "risk_level": "{{RISK_LEVEL_001_001}}",
+          "estimated_scope": "{{ESTIMATED_SCOPE_001_001}}",
+          "owner_role": "{{OWNER_ROLE_001_001}}",
+          "selection_policy": "{{SELECTION_POLICY_001_001}}",
+          "depends_on": [
+            "{{DEPENDENCY_001_001_01}}",
+            "{{DEPENDENCY_001_001_02}}"
+          ],
+          "files_expected": [
+            "{{EXPECTED_FILE_001_001_01}}",
+            "{{EXPECTED_FILE_001_001_02}}"
+          ],
+          "completion_criteria": [
+            "{{COMPLETION_CRITERIA_001_001_01}}",
+            "{{COMPLETION_CRITERIA_001_001_02}}"
+          ],
+          "verification_type": "{{VERIFICATION_TYPE_001_001}}",
+          "review_required": {{REVIEW_REQUIRED_001_001}},
+          "full_verify_required": {{FULL_VERIFY_REQUIRED_001_001}},
+          "blocked_reason": "{{BLOCKED_REASON_001_001}}",
+          "notes": "{{NOTES_001_001}}",
+          "last_updated_at": "{{LAST_UPDATED_AT_001_001}}"
+        },
+        {
+          "task_id": "{{TASK_ID_001_002}}",
+          "title": "{{TASK_TITLE_001_002}}",
+          "type": "{{TASK_TYPE_001_002}}",
+          "category": "{{TASK_CATEGORY_001_002}}",
+          "description": "{{TASK_DESCRIPTION_001_002}}",
+          "priority": {{TASK_PRIORITY_001_002}},
+          "status": "{{TASK_STATUS_001_002}}",
+          "passes": {{TASK_PASSES_001_002}},
+          "risk_level": "{{RISK_LEVEL_001_002}}",
+          "estimated_scope": "{{ESTIMATED_SCOPE_001_002}}",
+          "owner_role": "{{OWNER_ROLE_001_002}}",
+          "selection_policy": "{{SELECTION_POLICY_001_002}}",
+          "depends_on": [
+            "{{DEPENDENCY_001_002_01}}",
+            "{{DEPENDENCY_001_002_02}}"
+          ],
+          "files_expected": [
+            "{{EXPECTED_FILE_001_002_01}}",
+            "{{EXPECTED_FILE_001_002_02}}"
+          ],
+          "completion_criteria": [
+            "{{COMPLETION_CRITERIA_001_002_01}}",
+            "{{COMPLETION_CRITERIA_001_002_02}}"
+          ],
+          "verification_type": "{{VERIFICATION_TYPE_001_002}}",
+          "review_required": {{REVIEW_REQUIRED_001_002}},
+          "full_verify_required": {{FULL_VERIFY_REQUIRED_001_002}},
+          "blocked_reason": "{{BLOCKED_REASON_001_002}}",
+          "notes": "{{NOTES_001_002}}",
+          "last_updated_at": "{{LAST_UPDATED_AT_001_002}}"
+        }
+      ]
+    },
+    {
+      "group_id": "{{GROUP_ID_002}}",
+      "group_name": "{{GROUP_NAME_002}}",
+      "group_type": "{{GROUP_TYPE_002}}",
+      "priority": {{GROUP_PRIORITY_002}},
+      "description": "{{GROUP_DESCRIPTION_002}}",
+      "items": [
+        {
+          "task_id": "{{TASK_ID_002_001}}",
+          "title": "{{TASK_TITLE_002_001}}",
+          "type": "{{TASK_TYPE_002_001}}",
+          "category": "{{TASK_CATEGORY_002_001}}",
+          "description": "{{TASK_DESCRIPTION_002_001}}",
+          "priority": {{TASK_PRIORITY_002_001}},
+          "status": "{{TASK_STATUS_002_001}}",
+          "passes": {{TASK_PASSES_002_001}},
+          "risk_level": "{{RISK_LEVEL_002_001}}",
+          "estimated_scope": "{{ESTIMATED_SCOPE_002_001}}",
+          "owner_role": "{{OWNER_ROLE_002_001}}",
+          "selection_policy": "{{SELECTION_POLICY_002_001}}",
+          "depends_on": [
+            "{{DEPENDENCY_002_001_01}}",
+            "{{DEPENDENCY_002_001_02}}"
+          ],
+          "files_expected": [
+            "{{EXPECTED_FILE_002_001_01}}",
+            "{{EXPECTED_FILE_002_001_02}}"
+          ],
+          "completion_criteria": [
+            "{{COMPLETION_CRITERIA_002_001_01}}",
+            "{{COMPLETION_CRITERIA_002_001_02}}"
+          ],
+          "verification_type": "{{VERIFICATION_TYPE_002_001}}",
+          "review_required": {{REVIEW_REQUIRED_002_001}},
+          "full_verify_required": {{FULL_VERIFY_REQUIRED_002_001}},
+          "blocked_reason": "{{BLOCKED_REASON_002_001}}",
+          "notes": "{{NOTES_002_001}}",
+          "last_updated_at": "{{LAST_UPDATED_AT_002_001}}"
+        }
+      ]
+    }
+  ],
+  "ungrouped_items": [
+    {
+      "task_id": "{{TASK_ID_U001}}",
+      "title": "{{TASK_TITLE_U001}}",
+      "type": "{{TASK_TYPE_U001}}",
+      "category": "{{TASK_CATEGORY_U001}}",
+      "description": "{{TASK_DESCRIPTION_U001}}",
+      "priority": {{TASK_PRIORITY_U001}},
+      "status": "{{TASK_STATUS_U001}}",
+      "passes": {{TASK_PASSES_U001}},
+      "risk_level": "{{RISK_LEVEL_U001}}",
+      "estimated_scope": "{{ESTIMATED_SCOPE_U001}}",
+      "owner_role": "{{OWNER_ROLE_U001}}",
+      "selection_policy": "{{SELECTION_POLICY_U001}}",
+      "depends_on": [
+        "{{DEPENDENCY_U001_01}}"
+      ],
+      "files_expected": [
+        "{{EXPECTED_FILE_U001_01}}"
+      ],
+      "completion_criteria": [
+        "{{COMPLETION_CRITERIA_U001_01}}",
+        "{{COMPLETION_CRITERIA_U001_02}}"
+      ],
+      "verification_type": "{{VERIFICATION_TYPE_U001}}",
+      "review_required": {{REVIEW_REQUIRED_U001}},
+      "full_verify_required": {{FULL_VERIFY_REQUIRED_U001}},
+      "blocked_reason": "{{BLOCKED_REASON_U001}}",
+      "notes": "{{NOTES_U001}}",
+      "last_updated_at": "{{LAST_UPDATED_AT_U001}}"
+    }
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "meta": {
+    "template_version": "{{HARNESS_TEMPLATE_VERSION}}",
+    "project_name": "{{PROJECT_NAME}}",
+    "repository_name": "{{REPOSITORY_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "schema_version": "{{SESSION_SUMMARY_SCHEMA_VERSION}}"
+  },
+  "session": {
+    "session_id": "{{SESSION_ID}}",
+    "session_type": "{{SESSION_TYPE}}",
+    "session_started_at": "{{SESSION_STARTED_AT}}",
+    "session_finished_at": "{{SESSION_FINISHED_AT}}",
+    "session_duration_seconds": {{SESSION_DURATION_SECONDS}},
+    "current_branch": "{{CURRENT_BRANCH}}",
+    "commit_before_session": "{{COMMIT_BEFORE_SESSION}}",
+    "commit_after_session": "{{COMMIT_AFTER_SESSION}}",
+    "commit_message": "{{COMMIT_MESSAGE}}"
+  },
+  "context": {
+    "selected_work_item_id": "{{WORK_ITEM_ID}}",
+    "selected_work_item_type": "{{WORK_ITEM_TYPE}}",
+    "selected_work_item_title": "{{WORK_ITEM_TITLE}}",
+    "selected_reason": "{{SELECTED_REASON}}",
+    "selected_by_role": "{{SELECTED_BY_ROLE}}",
+    "owner_role": "{{OWNER_ROLE}}",
+    "reviewer_role": "{{REVIEWER_ROLE}}"
+  },
+  "scope": {
+    "planned_scope": [
+      "{{PLANNED_SCOPE_1}}",
+      "{{PLANNED_SCOPE_2}}",
+      "{{PLANNED_SCOPE_3}}"
+    ],
+    "actual_scope": [
+      "{{ACTUAL_SCOPE_1}}",
+      "{{ACTUAL_SCOPE_2}}",
+      "{{ACTUAL_SCOPE_3}}"
+    ],
+    "out_of_scope": [
+      "{{OUT_OF_SCOPE_1}}",
+      "{{OUT_OF_SCOPE_2}}"
+    ],
+    "files_intended_to_change": [
+      "{{INTENDED_FILE_1}}",
+      "{{INTENDED_FILE_2}}",
+      "{{INTENDED_FILE_3}}"
+    ],
+    "files_actually_changed": [
+      "{{ACTUAL_FILE_1}}",
+      "{{ACTUAL_FILE_2}}",
+      "{{ACTUAL_FILE_3}}"
+    ]
+  },
+  "design": {
+    "design_notes": [
+      "{{DESIGN_NOTE_1}}",
+      "{{DESIGN_NOTE_2}}",
+      "{{DESIGN_NOTE_3}}"
+    ],
+    "constraints_applied": [
+      "{{CONSTRAINT_1}}",
+      "{{CONSTRAINT_2}}"
+    ],
+    "acceptance_criteria": [
+      "{{ACCEPTANCE_CRITERIA_1}}",
+      "{{ACCEPTANCE_CRITERIA_2}}",
+      "{{ACCEPTANCE_CRITERIA_3}}"
+    ]
+  },
+  "implementation": {
+    "planned_steps": [
+      "{{PLANNED_STEP_1}}",
+      "{{PLANNED_STEP_2}}",
+      "{{PLANNED_STEP_3}}"
+    ],
+    "completed_steps": [
+      "{{COMPLETED_STEP_1}}",
+      "{{COMPLETED_STEP_2}}",
+      "{{COMPLETED_STEP_3}}"
+    ],
+    "incomplete_steps": [
+      "{{INCOMPLETE_STEP_1}}",
+      "{{INCOMPLETE_STEP_2}}"
+    ],
+    "implementation_summary": [
+      "{{IMPLEMENTATION_SUMMARY_1}}",
+      "{{IMPLEMENTATION_SUMMARY_2}}",
+      "{{IMPLEMENTATION_SUMMARY_3}}"
+    ]
+  },
+  "verification": {
+    "verification_type": "{{VERIFICATION_TYPE}}",
+    "planned_commands": [
+      "{{PLANNED_VERIFY_COMMAND_1}}",
+      "{{PLANNED_VERIFY_COMMAND_2}}",
+      "{{PLANNED_VERIFY_COMMAND_3}}"
+    ],
+    "executed_commands": [
+      "{{EXECUTED_VERIFY_COMMAND_1}}",
+      "{{EXECUTED_VERIFY_COMMAND_2}}",
+      "{{EXECUTED_VERIFY_COMMAND_3}}"
+    ],
+    "smoke_result": "{{SMOKE_RESULT}}",
+    "feature_level_result": "{{FEATURE_LEVEL_RESULT}}",
+    "full_verify_result": "{{FULL_VERIFY_RESULT}}",
+    "verification_result": "{{VERIFICATION_RESULT}}",
+    "verification_summary": [
+      "{{VERIFICATION_SUMMARY_1}}",
+      "{{VERIFICATION_SUMMARY_2}}"
+    ],
+    "last_verified_at": "{{LAST_VERIFIED_AT}}",
+    "last_verified_by": "{{LAST_VERIFIED_BY}}"
+  },
+  "review": {
+    "review_required": {{REVIEW_REQUIRED}},
+    "review_status": "{{REVIEW_STATUS}}",
+    "review_notes": [
+      "{{REVIEW_NOTE_1}}",
+      "{{REVIEW_NOTE_2}}",
+      "{{REVIEW_NOTE_3}}"
+    ],
+    "review_decision_reason": "{{REVIEW_DECISION_REASON}}"
+  },
+  "quality": {
+    "regression_risk": "{{REGRESSION_RISK}}",
+    "known_issues_detected": [
+      "{{KNOWN_ISSUE_1}}",
+      "{{KNOWN_ISSUE_2}}",
+      "{{KNOWN_ISSUE_3}}"
+    ],
+    "new_technical_debt": [
+      "{{TECH_DEBT_1}}",
+      "{{TECH_DEBT_2}}"
+    ],
+    "quality_gate_passed": {{QUALITY_GATE_PASSED}}
+  },
+  "status": {
+    "task_status_before": "{{TASK_STATUS_BEFORE}}",
+    "task_status_after": "{{TASK_STATUS_AFTER}}",
+    "passes_before": {{PASSES_BEFORE}},
+    "passes_after": {{PASSES_AFTER}},
+    "clean_state_at_session_end": {{CLEAN_STATE_AT_SESSION_END}},
+    "session_result": "{{SESSION_RESULT}}"
+  },
+  "blockers": {
+    "is_blocked": {{IS_BLOCKED}},
+    "blocked_reason": "{{BLOCKED_REASON}}",
+    "recovery_actions_taken": [
+      "{{RECOVERY_ACTION_TAKEN_1}}",
+      "{{RECOVERY_ACTION_TAKEN_2}}"
+    ],
+    "recovery_actions_needed": [
+      "{{RECOVERY_ACTION_NEEDED_1}}",
+      "{{RECOVERY_ACTION_NEEDED_2}}"
+    ],
+    "rollback_strategy": [
+      "{{ROLLBACK_STRATEGY_1}}",
+      "{{ROLLBACK_STRATEGY_2}}"
+    ]
+  },
+  "artifacts": {
+    "artifacts_produced": [
+      "{{ARTIFACT_1}}",
+      "{{ARTIFACT_2}}",
+      "{{ARTIFACT_3}}"
+    ],
+    "reports_generated": [
+      "{{REPORT_1}}",
+      "{{REPORT_2}}"
+    ],
+    "logs_updated": [
+      "{{LOG_1}}",
+      "{{LOG_2}}"
+    ]
+  },
+  "handoff": {
+    "next_recommended_steps": [
+      "{{NEXT_STEP_1}}",
+      "{{NEXT_STEP_2}}",
+      "{{NEXT_STEP_3}}"
+    ],
+    "handoff_notes": [
+      "{{HANDOFF_NOTE_1}}",
+      "{{HANDOFF_NOTE_2}}",
+      "{{HANDOFF_NOTE_3}}"
+    ],
+    "followup_required": {{FOLLOWUP_REQUIRED}},
+    "followup_type": "{{FOLLOWUP_TYPE}}"
+  }
+}

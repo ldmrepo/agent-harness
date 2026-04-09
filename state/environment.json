@@ -1,0 +1,117 @@
+{
+  "meta": {
+    "template_version": "{{HARNESS_TEMPLATE_VERSION}}",
+    "project_name": "{{PROJECT_NAME}}",
+    "repository_name": "{{REPOSITORY_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "schema_version": "{{ENVIRONMENT_SCHEMA_VERSION}}"
+  },
+  "project": {
+    "project_name": "{{PROJECT_NAME}}",
+    "repository_name": "{{REPOSITORY_NAME}}",
+    "project_description": "{{PROJECT_DESCRIPTION}}",
+    "runtime_type": "{{RUNTIME_TYPE}}",
+    "primary_stack": "{{PRIMARY_STACK}}",
+    "language_main": "{{LANGUAGE_MAIN}}",
+    "language_secondary": "{{LANGUAGE_SECONDARY}}",
+    "package_manager": "{{PACKAGE_MANAGER}}",
+    "default_branch": "{{DEFAULT_BRANCH}}"
+  },
+  "execution": {
+    "working_directory": "{{WORKING_DIRECTORY}}",
+    "env_file": "{{ENV_FILE}}",
+    "bootstrap_command": "{{CMD_BOOTSTRAP}}",
+    "install_command": "{{CMD_INSTALL}}",
+    "dev_command": "{{CMD_DEV}}",
+    "build_command": "{{CMD_BUILD}}",
+    "worker_command": "{{CMD_WORKER}}",
+    "db_migrate_command": "{{CMD_DB_MIGRATE}}"
+  },
+  "network": {
+    "app_host": "{{APP_HOST}}",
+    "app_port": "{{APP_PORT}}",
+    "api_host": "{{API_HOST}}",
+    "api_port": "{{API_PORT}}",
+    "db_host": "{{DB_HOST}}",
+    "db_port": "{{DB_PORT}}",
+    "cache_host": "{{CACHE_HOST}}",
+    "cache_port": "{{CACHE_PORT}}",
+    "healthcheck_url": "{{HEALTHCHECK_URL}}"
+  },
+  "verification": {
+    "smoke_command": "{{CMD_SMOKE}}",
+    "verify_all_command": "{{CMD_VERIFY_ALL}}",
+    "lint_command": "{{CMD_LINT}}",
+    "typecheck_command": "{{CMD_TYPECHECK}}",
+    "unit_test_command": "{{CMD_TEST_UNIT}}",
+    "integration_test_command": "{{CMD_TEST_INTEGRATION}}",
+    "e2e_test_command": "{{CMD_TEST_E2E}}",
+    "schema_check_command": "{{CMD_SCHEMA_CHECK}}",
+    "security_check_command": "{{CMD_SECURITY_CHECK}}",
+    "perf_smoke_command": "{{CMD_PERF_SMOKE}}"
+  },
+  "paths": {
+    "state_dir": "{{STATE_DIR_NAME}}",
+    "log_dir": "{{LOG_DIR_NAME}}",
+    "pid_dir": "{{PID_DIR_NAME}}",
+    "docs_dir": "{{DOCS_DIR_NAME}}",
+    "tasks_dir": "{{TASKS_DIR_NAME}}",
+    "verification_dir": "{{VERIFICATION_DIR_NAME}}",
+    "claude_dir": "{{CLAUDE_DIR_NAME}}",
+    "app_dir": "{{APP_DIR_NAME}}"
+  },
+  "artifacts": {
+    "progress_file": "{{PROGRESS_FILE_PATH}}",
+    "feature_list_file": "{{FEATURE_LIST_FILE_PATH}}",
+    "current_task_file": "{{CURRENT_TASK_FILE_PATH}}",
+    "backlog_file": "{{BACKLOG_FILE_PATH}}",
+    "session_summary_file": "{{SESSION_SUMMARY_FILE_PATH}}",
+    "known_issues_file": "{{KNOWN_ISSUES_FILE_PATH}}",
+    "bootstrap_summary_file": "{{BOOTSTRAP_SUMMARY_FILE_PATH}}",
+    "smoke_report_file": "{{SMOKE_REPORT_FILE_PATH}}",
+    "verify_all_report_file": "{{VERIFY_ALL_REPORT_FILE_PATH}}"
+  },
+  "bootstrap_policy": {
+    "enable_install": {{BOOTSTRAP_ENABLE_INSTALL}},
+    "enable_infra": {{BOOTSTRAP_ENABLE_INFRA}},
+    "enable_db_migrate": {{BOOTSTRAP_ENABLE_DB_MIGRATE}},
+    "enable_preflight": {{BOOTSTRAP_ENABLE_PREFLIGHT}},
+    "enable_app_start": {{BOOTSTRAP_ENABLE_APP_START}},
+    "enable_worker_start": {{BOOTSTRAP_ENABLE_WORKER_START}},
+    "enable_healthcheck": {{BOOTSTRAP_ENABLE_HEALTHCHECK}},
+    "enable_post_bootstrap": {{BOOTSTRAP_ENABLE_POST_BOOTSTRAP}},
+    "wait_seconds": {{BOOTSTRAP_WAIT_SECONDS}}
+  },
+  "verification_policy": {
+    "run_smoke_first": {{VERIFY_ALL_RUN_SMOKE_FIRST}},
+    "require_full_verify_for_core_change": {{REQUIRE_FULL_VERIFY_FOR_CORE_CHANGE}},
+    "enable_lint": {{VERIFY_ENABLE_LINT}},
+    "enable_typecheck": {{VERIFY_ENABLE_TYPECHECK}},
+    "enable_unit": {{VERIFY_ENABLE_UNIT}},
+    "enable_integration": {{VERIFY_ENABLE_INTEGRATION}},
+    "enable_e2e": {{VERIFY_ENABLE_E2E}},
+    "enable_build": {{VERIFY_ENABLE_BUILD}},
+    "enable_schema_check": {{VERIFY_ENABLE_SCHEMA_CHECK}},
+    "enable_security_check": {{VERIFY_ENABLE_SECURITY_CHECK}},
+    "enable_perf_smoke": {{VERIFY_ENABLE_PERF_SMOKE}}
+  },
+  "agent_policy": {
+    "allow_parallel_tasks": {{ALLOW_PARALLEL_TASKS}},
+    "require_review_agent": {{REQUIRE_REVIEW_AGENT}},
+    "allow_auto_commit": {{ALLOW_AUTO_COMMIT}},
+    "session_max_scope": "{{SESSION_MAX_SCOPE}}",
+    "default_owner_role": "{{DEFAULT_OWNER_ROLE}}",
+    "default_reviewer_role": "{{DEFAULT_REVIEWER_ROLE}}"
+  },
+  "runtime_state": {
+    "current_branch": "{{CURRENT_BRANCH}}",
+    "current_commit": "{{CURRENT_COMMIT}}",
+    "bootstrap_status": "{{BOOTSTRAP_STATUS}}",
+    "app_process_running": {{APP_PROCESS_RUNNING}},
+    "worker_process_running": {{WORKER_PROCESS_RUNNING}},
+    "healthcheck_status": "{{HEALTHCHECK_STATUS}}",
+    "last_bootstrap_at": "{{LAST_BOOTSTRAP_AT}}",
+    "last_verified_at": "{{LAST_VERIFIED_AT}}"
+  }
+}

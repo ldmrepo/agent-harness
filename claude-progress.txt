@@ -1,0 +1,204 @@
+# =========================================================
+# claude-progress.txt
+# Long-running coding-agent harness progress template
+# Template Version: {{HARNESS_TEMPLATE_VERSION}}
+# Project Name: {{PROJECT_NAME}}
+# Repository Name: {{REPOSITORY_NAME}}
+# =========================================================
+
+# ---------------------------------------------------------
+# Progress File Rules
+# ---------------------------------------------------------
+# 1. Append only. Do not overwrite past session history.
+# 2. One session produces exactly one progress block unless
+#    {{ALLOW_MULTI_PROGRESS_ENTRIES_PER_SESSION}} = true.
+# 3. Use project variables for project-dependent values.
+# 4. Every session block must contain all required fields.
+# 5. If a task is blocked, record the blocking reason explicitly.
+# 6. If verification was skipped, record the reason explicitly.
+# 7. If repository state is not clean, record the recovery plan.
+# ---------------------------------------------------------
+
+[{{SESSION_TIMESTAMP}}]
+Session ID:
+- {{SESSION_ID}}
+
+Session Type:
+- {{SESSION_TYPE}}
+# allowed examples:
+# - planner
+# - initializer
+# - coding
+# - reviewer
+# - recovery
+# - maintenance
+
+Project:
+- {{PROJECT_NAME}}
+
+Repository:
+- {{REPOSITORY_NAME}}
+
+Branch:
+- {{CURRENT_BRANCH}}
+
+Commit Before Session:
+- {{COMMIT_BEFORE_SESSION}}
+
+Selected Work Item:
+- {{WORK_ITEM_ID}}
+
+Selected Work Item Type:
+- {{WORK_ITEM_TYPE}}
+# allowed examples:
+# - feature
+# - bugfix
+# - chore
+# - refactor
+# - bootstrap
+# - verification
+# - recovery
+
+Session Goal:
+- {{SESSION_GOAL}}
+
+Why This Item Was Selected:
+- {{SELECTION_REASON}}
+
+Planned Scope:
+- {{PLANNED_SCOPE_LINE_1}}
+- {{PLANNED_SCOPE_LINE_2}}
+- {{PLANNED_SCOPE_LINE_3}}
+
+Out-of-Scope:
+- {{OUT_OF_SCOPE_LINE_1}}
+- {{OUT_OF_SCOPE_LINE_2}}
+
+Dependencies Considered:
+- {{DEPENDENCY_ITEM_1}}
+- {{DEPENDENCY_ITEM_2}}
+
+Files Intended To Change:
+- {{TARGET_FILE_1}}
+- {{TARGET_FILE_2}}
+- {{TARGET_FILE_3}}
+
+Actual Files Changed:
+- {{ACTUAL_FILE_1}}
+- {{ACTUAL_FILE_2}}
+- {{ACTUAL_FILE_3}}
+
+Design Notes:
+- {{DESIGN_NOTE_1}}
+- {{DESIGN_NOTE_2}}
+
+Implementation Summary:
+- {{IMPLEMENTATION_SUMMARY_1}}
+- {{IMPLEMENTATION_SUMMARY_2}}
+- {{IMPLEMENTATION_SUMMARY_3}}
+
+Verification Planned:
+- {{PLANNED_VERIFICATION_1}}
+- {{PLANNED_VERIFICATION_2}}
+- {{PLANNED_VERIFICATION_3}}
+
+Verification Executed:
+- {{EXECUTED_VERIFICATION_1}}
+- {{EXECUTED_VERIFICATION_2}}
+- {{EXECUTED_VERIFICATION_3}}
+
+Verification Result:
+- {{VERIFICATION_RESULT}}
+# allowed examples:
+# - passed
+# - partially_passed
+# - failed
+# - not_run
+
+Smoke Result:
+- {{SMOKE_RESULT}}
+
+Feature-Level Result:
+- {{FEATURE_LEVEL_RESULT}}
+
+Full Verification Result:
+- {{FULL_VERIFICATION_RESULT}}
+
+Reviewer Status:
+- {{REVIEWER_STATUS}}
+# allowed examples:
+# - approved
+# - rejected
+# - pending
+# - not_required
+
+Task Status Update:
+- {{TASK_STATUS_UPDATE}}
+# allowed examples:
+# - not_started
+# - in_progress
+# - blocked
+# - verified
+# - passed
+# - rejected
+
+Feature Pass Flag Updated:
+- {{FEATURE_PASSES_UPDATED}}
+# allowed examples:
+# - true
+# - false
+# - unchanged
+
+Known Issues:
+- {{KNOWN_ISSUE_1}}
+- {{KNOWN_ISSUE_2}}
+- {{KNOWN_ISSUE_3}}
+
+Regression Risk:
+- {{REGRESSION_RISK}}
+# allowed examples:
+# - low
+# - medium
+# - high
+# - unknown
+
+Blockers:
+- {{BLOCKER_1}}
+- {{BLOCKER_2}}
+
+Recovery Actions Needed:
+- {{RECOVERY_ACTION_1}}
+- {{RECOVERY_ACTION_2}}
+
+Artifacts Produced:
+- {{ARTIFACT_1}}
+- {{ARTIFACT_2}}
+- {{ARTIFACT_3}}
+
+Environment Notes:
+- {{ENVIRONMENT_NOTE_1}}
+- {{ENVIRONMENT_NOTE_2}}
+
+Commit After Session:
+- {{COMMIT_AFTER_SESSION}}
+
+Commit Message:
+- {{COMMIT_MESSAGE}}
+
+Clean State At Session End:
+- {{CLEAN_STATE_AT_SESSION_END}}
+# allowed examples:
+# - true
+# - false
+
+Next Recommended Step:
+- {{NEXT_STEP_1}}
+- {{NEXT_STEP_2}}
+- {{NEXT_STEP_3}}
+
+Handoff Notes For Next Session:
+- {{HANDOFF_NOTE_1}}
+- {{HANDOFF_NOTE_2}}
+- {{HANDOFF_NOTE_3}}
+
+------------------------------------------------------------
