@@ -115,6 +115,19 @@ REQUIRED_VARS = [
     Variable("BOOTSTRAP_ENABLE_INSTALL",    "true",                           "Enable dependency install on bootstrap",     "Bootstrap Flags"),
     Variable("BOOTSTRAP_ENABLE_APP_START",  "true",                           "Enable app startup on bootstrap",            "Bootstrap Flags"),
     Variable("BOOTSTRAP_ENABLE_HEALTHCHECK","true",                           "Enable health check on bootstrap",           "Bootstrap Flags"),
+    # Strategic Planning
+    Variable("STRATEGIST_AGENT_MODEL",      "opus",                           "Model for strategist agent",                 "Strategic Planning"),
+    Variable("STRATEGIST_AGENT_COLOR",      "magenta",                        "Color for strategist agent",                 "Strategic Planning"),
+    Variable("ENABLE_STRATEGIST_PHASE",     "true",                           "Enable strategist for project planning",     "Strategic Planning"),
+    Variable("MAX_FEATURES_PER_MILESTONE",  "10",                             "Max feature items per milestone",            "Strategic Planning"),
+    Variable("ROADMAP_SCHEMA_VERSION",      "1.0",                            "Roadmap JSON schema version",                "Strategic Planning"),
+    Variable("STRATEGIC_REVIEW_SCHEMA_VERSION", "1.0",                        "Strategic review JSON schema version",        "Strategic Planning"),
+    Variable("PROJECT_GOAL_DESCRIPTION",    "",                               "Project goal description",                   "Strategic Planning"),
+    Variable("PROJECT_TARGET_USERS",        "",                               "Target users",                               "Strategic Planning"),
+    Variable("PROJECT_KEY_CAPABILITIES",    "",                               "Key capabilities",                           "Strategic Planning"),
+    Variable("PROJECT_CONSTRAINTS",         "",                               "Technical constraints",                      "Strategic Planning"),
+    Variable("PROJECT_SUCCESS_CRITERIA",    "",                               "Success criteria",                           "Strategic Planning"),
+    Variable("PROJECT_NOTES",              "",                               "Additional project notes",                   "Strategic Planning"),
 ]
 
 # ── Generate example config ─────────────────────────────────────────────

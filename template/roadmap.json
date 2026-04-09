@@ -1,0 +1,11 @@
+{
+  "meta": {
+    "template_version": "{{HARNESS_TEMPLATE_VERSION}}",
+    "project_name": "{{PROJECT_NAME}}",
+    "repository_name": "{{REPOSITORY_NAME}}",
+    "created_at": "{{CREATED_AT}}",
+    "updated_at": "{{UPDATED_AT}}",
+    "schema_version": "{{ROADMAP_SCHEMA_VERSION}}"
+  },
+  "milestones": []
+}

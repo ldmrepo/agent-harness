@@ -32,6 +32,7 @@ This file defines the mandatory operating rules for agents working in this repos
 
 This policy applies to all agent roles in this repository:
 
+- strategist
 - planner
 - initializer
 - coder / generator
@@ -57,6 +58,9 @@ Optional but recommended artifacts:
 - `./state/session_summary.json`
 - `./state/known_issues.json`
 - `./state/qa_tuning_log.json`
+- `./project_goal.md`
+- `./roadmap.json`
+- `./state/strategic_review.json`
 - `./verification/smoke.sh`
 - `./verification/verify_all.sh`
 
@@ -133,6 +137,30 @@ All project-dependent values must be treated as variables.
 ---
 
 ## 6. Agent Roles
+
+### 6.0 Strategist Agent
+
+Responsibilities:
+- read `project_goal.md` and analyze project requirements,
+- define milestones in `roadmap.json`,
+- decompose milestones into `feature_list.json` entries,
+- record strategic decisions in `state/strategic_review.json`,
+- advance milestones when current work is complete.
+
+Strategist outputs may update:
+- `roadmap.json` (owned)
+- `feature_list.json` (new entries only — does not modify existing entries)
+- `state/strategic_review.json` (owned)
+
+The strategist does NOT:
+- select individual tasks (planner's role),
+- implement code (coder's role),
+- review work (reviewer's role),
+- modify `tasks/current_task.json` (planner's artifact).
+
+Trigger conditions:
+- `feature_list.json` has no actionable items AND `project_goal.md` exists → initial planning.
+- All current milestone features passed AND next milestone exists → milestone advancement.
 
 ### 6.1 Planner Agent
 Responsibilities:
