@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Harness — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Roboto+Condensed:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f3f0;
+    --surface: #fff;
+    --tint: #edeae6;
+    --rule: #d9d5cf;
+    --rule-light: #e8e4df;
+    --ink-1: #0a0908;
+    --ink-2: #1a1816;
+    --ink-3: #2e2a26;
+    --blue: #2554c0;
+    --blue-bg: #edf1fa;
+    --green: #157046;
+    --green-bg: #ebf5f0;
+    --red: #b02e2c;
+    --red-bg: #faeded;
+    --amber: #8a6006;
+    --amber-bg: #f9f3e6;
+    --display: 'Share Tech Mono', 'Courier New', monospace;
+    --body: 'Roboto Condensed', 'Arial Narrow', sans-serif;
+    --code: 'IBM Plex Mono', monospace;
+    --t-sm: 18px;
+    --t-base: 20px;
+    --t-md: 24px;
+    --t-lg: 30px;
+    --t-xl: 42px;
+    --t-2xl: 52px;
+    --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px; --s6: 24px; --s8: 32px; --s10: 40px;
+    --radius: 8px;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: var(--body); font-size: var(--t-base); line-height: 1.5; color: var(--ink-1); background: var(--bg); -webkit-font-smoothing: antialiased; }
+  :focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 4px; }
+
+  /* ═ Header ═ */
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: var(--s3) var(--s10); background: var(--surface);
+    border-bottom: 1px solid var(--rule); position: sticky; top: 0; z-index: 50;
+  }
+  .hd-left { display: flex; align-items: baseline; gap: var(--s3); }
+  .hd-brand { font-family: var(--display); font-size: var(--t-lg); }
+  .hd-sep { color: var(--rule); font-weight: 300; }
+  .hd-project { font-size: var(--t-sm); color: var(--ink-2); }
+  .hd-right { display: flex; align-items: center; gap: var(--s6); }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: var(--t-sm); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 5px 16px; border-radius: 100px;
+  }
+  .badge.live { color: var(--green); border: 1px solid rgba(21,112,70,.3); }
+  .badge.stopped { color: var(--red); border: 1px solid rgba(176,46,44,.3); }
+  .pulse { width: 7px; height: 7px; border-radius: 50%; background: currentColor; animation: blink 2s ease-in-out infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+
+  /* ═ Layout ═ */
+  .wrap { max-width: 1400px; margin: 0 auto; padding: var(--s8) var(--s10) 80px; display: flex; flex-direction: column; gap: var(--s6); }
+
+  /* ═ Card ═ */
+  .card { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: var(--s6); }
+  .card-hd { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: var(--s5); }
+  .card-t { font-size: var(--t-sm); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+  .card-a { font-size: var(--t-sm); color: var(--blue); font-weight: 500; text-decoration: none; cursor: pointer; }
+  .card-a:hover { text-decoration: underline; }
+
+  /* ═ Section 1: 현재 상태 패널 ═ */
+  .status-panel {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px;
+    background: var(--rule); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden;
+  }
+  .status-item { background: var(--surface); padding: var(--s4) var(--s5); }
+  .status-label { font-size: var(--t-sm); color: var(--ink-3); margin-bottom: var(--s1); }
+  .status-value { font-family: var(--display); font-size: var(--t-md); }
+  .status-value.green { color: var(--green); }
+  .status-value.red { color: var(--red); }
+  .status-value.blue { color: var(--blue); }
+  .status-value.amber { color: var(--amber); }
+
+  /* ═ Section 1b: 모니터링 스트립 ═ */
+  .monitor-strip {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--rule); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden;
+    margin-top: calc(-1 * var(--s6) + var(--s1));
+  }
+  .monitor-item { background: var(--surface); padding: var(--s3) var(--s5); display: flex; flex-direction: column; gap: var(--s1); }
+  .monitor-label { font-size: 15px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; font-weight: 500; }
+  .monitor-main { display: flex; align-items: baseline; gap: var(--s2); }
+  .monitor-num { font-family: var(--display); font-size: var(--t-lg); line-height: 1; }
+  .monitor-unit { font-family: var(--body); font-size: var(--t-sm); color: var(--ink-3); font-weight: 300; }
+  .monitor-sub { font-family: var(--code); font-size: 15px; color: var(--ink-3); }
+  .monitor-sub.warn { color: var(--amber); }
+  .monitor-sub.danger { color: var(--red); font-weight: 500; }
+
+  /* Smoke history dots */
+  .smoke-dots { display: flex; gap: 3px; align-items: center; }
+  .smoke-dot {
+    width: 18px; height: 18px; border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--display); font-size: 13px; line-height: 1; font-weight: 700;
+  }
+  .smoke-dot.ok { background: var(--green-bg); color: var(--green); }
+  .smoke-dot.ng { background: var(--red-bg); color: var(--red); }
+
+  /* Failure counter bar */
+  .fail-bar { display: flex; gap: 3px; align-items: center; }
+  .fail-seg {
+    width: 28px; height: 8px; border-radius: 2px; background: var(--tint);
+    transition: background .3s;
+  }
+  .fail-seg.active { background: var(--red); }
+  .fail-seg.safe { background: var(--green); opacity: .4; }
+
+  /* ═ Section 2: KPI ═ */
+  .kpi-row {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px;
+    background: var(--rule); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden;
+  }
+  .kpi { background: var(--surface); padding: var(--s5) var(--s5); }
+  .kpi-num { font-family: var(--display); font-size: var(--t-2xl); line-height: 1; letter-spacing: -0.03em; }
+  .kpi-unit { font-family: var(--body); font-size: var(--t-sm); font-weight: 300; color: var(--ink-2); }
+  .kpi-lbl { font-size: var(--t-sm); color: var(--ink-3); margin-top: var(--s1); }
+  .kpi-sub { font-family: var(--code); font-size: var(--t-sm); margin-top: var(--s2); }
+  .kpi-sub.up { color: var(--green); }
+  .kpi-sub.dn { color: var(--red); }
+  .kpi-sub.mute { color: var(--ink-3); }
+
+  /* ═ Main Row ═ */
+  .main-row { display: grid; grid-template-columns: 5fr 3fr; gap: var(--s5); }
+
+  /* ═ Section 3: 작업 파이프라인 ═ */
+  .pipeline-item {
+    display: grid; grid-template-columns: auto 1fr auto; gap: var(--s3); align-items: center;
+    padding: var(--s3) 0; border-bottom: 1px solid var(--rule-light);
+  }
+  .pipeline-item:last-child { border-bottom: none; }
+  .pipeline-id { font-family: var(--code); font-size: var(--t-sm); color: var(--ink-3); min-width: 52px; }
+  .pipeline-title { font-size: var(--t-base); font-weight: 500; }
+  .pipeline-title.current { color: var(--blue); }
+  .pipeline-deps { font-size: var(--t-sm); color: var(--ink-3); margin-top: 2px; }
+  .pipeline-status {
+    font-family: var(--display); font-size: var(--t-sm); padding: 3px 12px;
+    border-radius: 4px; text-align: center; white-space: nowrap;
+  }
+  .pipeline-status.passed { background: var(--green-bg); color: var(--green); }
+  .pipeline-status.coding { background: var(--blue-bg); color: var(--blue); }
+  .pipeline-status.waiting { background: var(--tint); color: var(--ink-3); }
+  .pipeline-status.blocked { background: var(--red-bg); color: var(--red); }
+  .pipeline-status.review { background: var(--amber-bg); color: var(--amber); }
+
+  /* ═ Section 4: 세션 타임라인 ═ */
+  .tl-date { font-family: var(--code); font-size: 15px; color: var(--ink-3); padding: var(--s2) 0; border-bottom: 1px solid var(--rule-light); font-weight: 500; }
+  .tl-item {
+    display: grid; grid-template-columns: 50px 1fr; gap: var(--s3);
+    padding: var(--s3) 0; border-bottom: 1px solid var(--rule-light);
+  }
+  .tl-item:last-child { border-bottom: none; }
+  .tl-time { font-family: var(--code); font-size: var(--t-sm); color: var(--ink-3); text-align: right; padding-top: 2px; }
+  .tl-role { font-size: var(--t-sm); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+  .tl-role.planner { color: var(--blue); }
+  .tl-role.coder { color: var(--ink-1); }
+  .tl-role.reviewer { color: var(--green); }
+  .tl-role.recovery { color: var(--red); }
+  .tl-msg { font-size: var(--t-sm); color: var(--ink-2); margin-top: 2px; }
+  .tl-res { font-family: var(--code); font-size: var(--t-sm); margin-top: 3px; }
+  .tl-res.ok { color: var(--green); }
+  .tl-res.err { color: var(--red); }
+  .tl-res.run { color: var(--blue); }
+
+  /* ═ Bottom Row ═ */
+  .bottom-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s5); }
+
+  /* ═ Section 5: Smoke Checks ═ */
+  .check-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--s2); }
+  .check-item {
+    display: flex; align-items: center; gap: var(--s2);
+    padding: var(--s2) var(--s3); border-radius: 6px; font-size: var(--t-sm);
+  }
+  .check-item.pass { background: var(--green-bg); color: var(--green); }
+  .check-item.fail { background: var(--red-bg); color: var(--red); }
+  .check-item.skip { background: var(--tint); color: var(--ink-3); }
+  .check-icon { font-family: var(--display); font-size: var(--t-base); flex-shrink: 0; width: 20px; text-align: center; }
+  .check-name { font-weight: 500; }
+  .smoke-summary {
+    display: flex; align-items: center; gap: var(--s2);
+    padding: var(--s3) var(--s4); border-radius: 6px;
+    font-family: var(--display); font-size: var(--t-base); font-weight: 500;
+    margin-bottom: var(--s4);
+  }
+  .smoke-summary.pass { background: var(--green-bg); color: var(--green); }
+  .smoke-summary.fail { background: var(--red-bg); color: var(--red); }
+
+  /* ═ Section 6: Known Issues ═ */
+  .issue { padding: var(--s3) 0; border-bottom: 1px solid var(--rule-light); }
+  .issue:last-child { border-bottom: none; }
+  .issue-row { display: flex; justify-content: space-between; align-items: baseline; gap: var(--s2); }
+  .issue-title { font-size: var(--t-base); font-weight: 600; }
+  .sev {
+    font-family: var(--display); font-size: var(--t-sm); padding: 2px 10px;
+    border-radius: 4px; flex-shrink: 0;
+  }
+  .sev.crit { background: var(--red-bg); color: var(--red); }
+  .sev.med { background: var(--amber-bg); color: var(--amber); }
+  .sev.low { background: var(--tint); color: var(--ink-3); }
+  .issue-desc { font-size: var(--t-sm); color: var(--ink-2); margin-top: 3px; line-height: 1.45; }
+  .issue-meta { font-family: var(--code); font-size: var(--t-sm); color: var(--ink-3); margin-top: var(--s1); }
+
+  /* ═ Health Banner ═ */
+  .health-banner {
+    display: flex; align-items: center; gap: var(--s3);
+    padding: var(--s4) var(--s5); border-radius: var(--radius);
+    font-size: var(--t-base); font-weight: 600;
+  }
+  .health-banner .health-detail {
+    font-weight: 400; font-size: var(--t-sm); opacity: .85; margin-left: auto;
+  }
+  .health-banner.ok { background: var(--green-bg); color: var(--green); border: 1px solid rgba(21,112,70,.2); }
+  .health-banner.warn { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(138,96,6,.2); }
+  .health-banner.danger { background: var(--red-bg); color: var(--red); border: 1px solid rgba(176,46,44,.2); }
+  .health-icon { font-size: var(--t-md); flex-shrink: 0; }
+
+  /* ═ Escalation Panel ═ */
+  .esc-panel { border-left: 4px solid var(--red); }
+  .esc-item {
+    display: flex; align-items: center; gap: var(--s3);
+    padding: var(--s3) 0; border-bottom: 1px solid var(--rule-light);
+  }
+  .esc-item:last-child { border-bottom: none; }
+  .esc-icon { font-size: var(--t-md); flex-shrink: 0; width: 28px; text-align: center; }
+  .esc-body { flex: 1; }
+  .esc-title { font-size: var(--t-base); font-weight: 600; }
+  .esc-desc { font-size: var(--t-sm); color: var(--ink-2); margin-top: 2px; }
+  .esc-time { font-family: var(--code); font-size: var(--t-sm); color: var(--ink-3); }
+  .esc-badge {
+    font-family: var(--display); font-size: 15px; padding: 3px 12px;
+    border-radius: 4px; background: var(--red-bg); color: var(--red); white-space: nowrap;
+  }
+  .esc-badge.resolved { background: var(--green-bg); color: var(--green); }
+
+  /* ═ Progress Bar ═ */
+  .progress-track {
+    height: 8px; background: var(--tint); border-radius: 4px; overflow: hidden;
+    margin-top: var(--s2);
+  }
+  .progress-fill {
+    height: 100%; border-radius: 4px; transition: width .5s ease;
+  }
+
+  /* ═ Trend Arrow ═ */
+  .trend { font-size: var(--t-sm); font-weight: 600; }
+  .trend.up { color: var(--green); }
+  .trend.dn { color: var(--red); }
+  .trend.flat { color: var(--ink-3); }
+
+  /* ═ Header meta ═ */
+  .hd-meta { font-family: var(--code); font-size: 15px; color: var(--ink-3); }
+
+  /* ═ Responsive ═ */
+  @media (max-width: 1100px) {
+    .wrap { padding: var(--s6) var(--s5) 60px; }
+    header { padding: var(--s3) var(--s5); }
+    .status-panel { grid-template-columns: repeat(3, 1fr); }
+    .monitor-strip { grid-template-columns: repeat(2, 1fr); }
+    .kpi-row { grid-template-columns: repeat(3, 1fr); }
+    .main-row, .bottom-row { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    header { flex-wrap: wrap; gap: var(--s2); padding: var(--s3) var(--s4); }
+    .wrap { padding: var(--s5) var(--s4) 48px; }
+    .status-panel { grid-template-columns: 1fr 1fr; }
+    .monitor-strip { grid-template-columns: 1fr 1fr; }
+    .kpi-row { grid-template-columns: 1fr 1fr; }
+    .hd-meta { display: none; }
+    .check-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═ Header ═ -->
+<header>
+  <div class="hd-left">
+    <span class="hd-brand">Agent Harness</span>
+    <span class="hd-sep">/</span>
+    <span class="hd-project">sample-todo-api</span>
+  </div>
+  <div class="hd-right">
+    <span class="hd-meta">마지막 갱신: 2026-04-10 14:32 (3분 전)</span>
+    <span class="badge live" role="status" aria-label="오케스트레이터 실행 중"><span class="pulse"></span>실행 중</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ═ G4: 전체 건강 요약 배너 ═ -->
+  <div class="health-banner warn" role="alert">
+    <span class="health-icon">&#9888;</span>
+    <span>주의 필요 — 치명 이슈 1건, F-003 3세션째 체류</span>
+    <span class="health-detail">5/7 작업 완료 &middot; 에스컬레이션 1건 대기</span>
+  </div>
+
+  <!-- ═ Section 1: 현재 상태 ═ -->
+  <div class="status-panel" role="region" aria-label="현재 상태">
+    <div class="status-item">
+      <div class="status-label">현재 작업</div>
+      <div class="status-value">F-003</div>
+      <div style="font-size:var(--t-sm);color:var(--ink-2);margin-top:2px">페이지네이션</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">에이전트</div>
+      <div class="status-value blue">CODER</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">계약</div>
+      <div class="status-value green">승인됨</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">스모크</div>
+      <div class="status-value green">통과</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">검증</div>
+      <div class="status-value blue">진행 중</div>
+    </div>
+  </div>
+
+  <!-- ═ Section 1b: 모니터링 스트립 ═ -->
+  <div class="monitor-strip" role="region" aria-label="운영 모니터링">
+
+    <!-- Orchestrator 진행 -->
+    <div class="monitor-item">
+      <div class="monitor-label">오케스트레이터</div>
+      <div class="monitor-main">
+        <span class="monitor-num" style="color:var(--blue)">9</span>
+        <span class="monitor-unit">/ 15 세션</span>
+      </div>
+      <div class="monitor-sub">경과 42분 &middot; 최대 90분</div>
+    </div>
+
+    <!-- 작업 체류 -->
+    <div class="monitor-item">
+      <div class="monitor-label">작업 체류</div>
+      <div class="monitor-main">
+        <span class="monitor-num" style="color:var(--amber)">3</span>
+        <span class="monitor-unit">세션째 F-003</span>
+      </div>
+      <div class="monitor-sub warn">평균(1.8) 초과</div>
+    </div>
+
+    <!-- Smoke 이력 -->
+    <div class="monitor-item">
+      <div class="monitor-label">스모크 이력</div>
+      <div class="smoke-dots" style="margin-top:var(--s1)">
+        <span class="smoke-dot ok">&#10003;</span>
+        <span class="smoke-dot ok">&#10003;</span>
+        <span class="smoke-dot ng">&#10007;</span>
+        <span class="smoke-dot ok">&#10003;</span>
+        <span class="smoke-dot ok">&#10003;</span>
+        <span class="smoke-dot ok">&#10003;</span>
+        <span class="smoke-dot ng">&#10007;</span>
+        <span class="smoke-dot ok">&#10003;</span>
+      </div>
+      <div class="monitor-sub">6/8 통과 &middot; 75%</div>
+    </div>
+
+    <!-- 연속 실패 카운터 -->
+    <div class="monitor-item">
+      <div class="monitor-label">연속 실패</div>
+      <div class="monitor-main">
+        <span class="monitor-num" style="color:var(--green)">0</span>
+        <span class="monitor-unit">/ 3 한계</span>
+      </div>
+      <div class="fail-bar" style="margin-top:2px">
+        <span class="fail-seg safe"></span>
+        <span class="fail-seg safe"></span>
+        <span class="fail-seg safe"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═ Section 2: KPI (5열) ═ -->
+  <div class="kpi-row" role="region" aria-label="핵심 지표">
+    <div class="kpi">
+      <div class="kpi-num" style="color:var(--green)">5<span class="kpi-unit"> / 7</span></div>
+      <div class="kpi-lbl">완료된 작업</div>
+      <div class="progress-track"><div class="progress-fill" style="width:71%;background:var(--green)"></div></div>
+      <div class="kpi-sub mute">71% &middot; <span class="trend up">&#9650; +2 최근 3세션</span></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-num" style="color:var(--red)">22<span class="kpi-unit">%</span></div>
+      <div class="kpi-lbl">반려율</div>
+      <div class="progress-track"><div class="progress-fill" style="width:22%;background:var(--red)"></div></div>
+      <div class="kpi-sub mute">2/9 리뷰 &middot; 기준 &lt; 40% <span class="trend flat">&#8212;</span></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-num" style="color:var(--amber)">3</div>
+      <div class="kpi-lbl">미해결 이슈</div>
+      <div class="kpi-sub dn">1건 치명적 &middot; <span class="trend dn">&#9650; +1</span></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-num">18<span class="kpi-unit">%</span></div>
+      <div class="kpi-lbl">QA 누락율</div>
+      <div class="progress-track"><div class="progress-fill" style="width:18%;background:var(--amber)"></div></div>
+      <div class="kpi-sub mute">2/11 항목 &middot; 기준 &lt; 20% <span class="trend flat">&#8212;</span></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-num" style="color:var(--blue)">$12.40</div>
+      <div class="kpi-lbl">누적 비용</div>
+      <div class="progress-track"><div class="progress-fill" style="width:62%;background:var(--blue)"></div></div>
+      <div class="kpi-sub mute">예산 $20 대비 62% <span class="trend dn">&#9650; +$3.20</span></div>
+    </div>
+  </div>
+
+  <!-- ═ G2: 에스컬레이션 패널 ═ -->
+  <div class="card esc-panel" role="region" aria-label="에스컬레이션">
+    <div class="card-hd">
+      <span class="card-t">에스컬레이션 &middot; 응답 대기</span>
+      <span class="card-a">escalation_log.json</span>
+    </div>
+
+    <div class="esc-item">
+      <span class="esc-icon" style="color:var(--red)">&#9888;</span>
+      <div class="esc-body">
+        <div class="esc-title">SQLite 동시 쓰기 — 아키텍처 결정 필요</div>
+        <div class="esc-desc">WAL 모드 전환 vs PostgreSQL 마이그레이션. 에이전트가 판단할 수 없는 범위.</div>
+        <div class="esc-time">2026-04-10 13:15 &middot; 1시간 17분 대기</div>
+      </div>
+      <span class="esc-badge">대기 중</span>
+    </div>
+
+    <div class="esc-item">
+      <span class="esc-icon" style="color:var(--green)">&#10003;</span>
+      <div class="esc-body">
+        <div class="esc-title">F-004 연속 반려 2회 — 요구사항 모호</div>
+        <div class="esc-desc">404 응답 형식에 대한 명확한 스펙 요청. 사용자 응답으로 해결됨.</div>
+        <div class="esc-time">2026-04-10 12:50 &middot; 15분 만에 해결</div>
+      </div>
+      <span class="esc-badge resolved">해결됨</span>
+    </div>
+  </div>
+
+  <!-- ═ Section 3 + 4: Main Row ═ -->
+  <div class="main-row">
+
+    <!-- 작업 파이프라인 -->
+    <div class="card" role="region" aria-label="작업 파이프라인">
+      <div class="card-hd">
+        <span class="card-t">작업 파이프라인</span>
+        <span class="card-a">feature_list.json</span>
+      </div>
+
+      <div class="pipeline-item">
+        <span class="pipeline-id">F-002</span>
+        <div>
+          <div class="pipeline-title">DB 설정</div>
+        </div>
+        <span class="pipeline-status passed">통과</span>
+      </div>
+
+      <div class="pipeline-item">
+        <span class="pipeline-id">F-001</span>
+        <div>
+          <div class="pipeline-title">CRUD API</div>
+          <div class="pipeline-deps">의존: F-002</div>
+        </div>
+        <span class="pipeline-status passed">통과</span>
+      </div>
+
+      <div class="pipeline-item">
+        <span class="pipeline-id">F-004</span>
+        <div>
+          <div class="pipeline-title">에러 처리</div>
+        </div>
+        <span class="pipeline-status passed">통과</span>
+      </div>
+
+      <div class="pipeline-item">
+        <span class="pipeline-id">F-005</span>
+        <div>
+          <div class="pipeline-title">유효성 검사</div>
+        </div>
+        <span class="pipeline-status passed">통과</span>
+      </div>
+
+      <div class="pipeline-item">
+        <span class="pipeline-id">F-007</span>
+        <div>
+          <div class="pipeline-title">헬스 체크</div>
+        </div>
+        <span class="pipeline-status passed">통과</span>
+      </div>
+
+      <div class="pipeline-item" style="background:var(--blue-bg);margin:0 calc(-1 * var(--s6));padding:var(--s3) var(--s6);border-radius:0">
+        <span class="pipeline-id" style="color:var(--blue);font-weight:700">F-003</span>
+        <div>
+          <div class="pipeline-title current">페이지네이션</div>
+          <div class="pipeline-deps">의존: F-001, F-002</div>
+        </div>
+        <span class="pipeline-status coding">구현 중</span>
+      </div>
+
+      <div class="pipeline-item">
+        <span class="pipeline-id">F-006</span>
+        <div>
+          <div class="pipeline-title">검색</div>
+          <div class="pipeline-deps">의존: F-001</div>
+        </div>
+        <span class="pipeline-status waiting">대기</span>
+      </div>
+    </div>
+
+    <!-- 세션 타임라인 -->
+    <div class="card" role="region" aria-label="세션 타임라인">
+      <div class="card-hd">
+        <span class="card-t">타임라인</span>
+        <span class="card-a">progress.txt</span>
+      </div>
+
+      <div class="tl-date">2026-04-10 (오늘)</div>
+
+      <div class="tl-item">
+        <span class="tl-time">14:32</span>
+        <div>
+          <div class="tl-role coder">Coder</div>
+          <div class="tl-msg">F-003 페이지네이션 구현 중</div>
+          <div class="tl-res run">&#9654; 진행 중</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <span class="tl-time">14:18</span>
+        <div>
+          <div class="tl-role reviewer">Reviewer</div>
+          <div class="tl-msg">F-003 계약 — 범위 승인</div>
+          <div class="tl-res ok">&#10003; 계약 승인</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <span class="tl-time">14:05</span>
+        <div>
+          <div class="tl-role planner">Planner</div>
+          <div class="tl-msg">F-003 선택, 계약 생성</div>
+          <div class="tl-res ok">&#10003; 작업 선택됨</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <span class="tl-time">13:48</span>
+        <div>
+          <div class="tl-role reviewer">Reviewer</div>
+          <div class="tl-msg">F-005 유효성 검사 승인</div>
+          <div class="tl-res ok">&#10003; 통과</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <span class="tl-time">13:21</span>
+        <div>
+          <div class="tl-role coder">Coder</div>
+          <div class="tl-msg">F-005 구현 + 검증 완료</div>
+          <div class="tl-res ok">&#10003; 12개 테스트 통과</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <span class="tl-time">12:44</span>
+        <div>
+          <div class="tl-role reviewer">Reviewer</div>
+          <div class="tl-msg">F-004 — 404 처리 누락</div>
+          <div class="tl-res err">&#10007; 반려</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <span class="tl-time">12:15</span>
+        <div>
+          <div class="tl-role recovery">Recovery</div>
+          <div class="tl-msg">스모크 실패 — uvicorn 재시작</div>
+          <div class="tl-res ok">&#10003; 복구됨</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═ Section 5 + 6: Bottom Row ═ -->
+  <div class="bottom-row">
+
+    <!-- 스모크 검증 -->
+    <div class="card" role="region" aria-label="스모크 검증">
+      <div class="card-hd">
+        <span class="card-t">스모크 검증</span>
+        <span class="card-a">smoke_report.json</span>
+      </div>
+
+      <div class="smoke-summary pass">
+        <svg width="16" height="16" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        전체 통과
+      </div>
+
+      <div class="check-grid">
+        <div class="check-item pass"><span class="check-icon">&#10003;</span><span class="check-name">AGENTS.md</span></div>
+        <div class="check-item pass"><span class="check-icon">&#10003;</span><span class="check-name">app/main.py</span></div>
+        <div class="check-item pass"><span class="check-icon">&#10003;</span><span class="check-name">pyproject.toml</span></div>
+        <div class="check-item pass"><span class="check-icon">&#10003;</span><span class="check-name">프로세스: uvicorn</span></div>
+        <div class="check-item pass"><span class="check-icon">&#10003;</span><span class="check-name">포트 8000</span></div>
+        <div class="check-item pass"><span class="check-icon">&#10003;</span><span class="check-name">헬스 /health</span></div>
+        <div class="check-item pass"><span class="check-icon">&#10003;</span><span class="check-name">API /docs</span></div>
+        <div class="check-item skip"><span class="check-icon">—</span><span class="check-name">UI 프로브 (비활성)</span></div>
+      </div>
+    </div>
+
+    <!-- 알려진 이슈 -->
+    <div class="card" role="region" aria-label="알려진 이슈">
+      <div class="card-hd">
+        <span class="card-t">알려진 이슈</span>
+        <span class="card-a">known_issues.json</span>
+      </div>
+
+      <div class="issue">
+        <div class="issue-row">
+          <span class="issue-title">SQLite 동시 쓰기 제한</span>
+          <span class="sev crit">치명</span>
+        </div>
+        <div class="issue-desc">통합 테스트 간헐적 database locked. WAL 모드 전환 필요.</div>
+        <div class="issue-meta">ISS-001 &middot; 발견: session-08 &middot; 상태: 미해결</div>
+      </div>
+
+      <div class="issue">
+        <div class="issue-row">
+          <span class="issue-title">Alembic revision 충돌 가능성</span>
+          <span class="sev med">중간</span>
+        </div>
+        <div class="issue-desc">merge 전 revision 순서 확인 필요.</div>
+        <div class="issue-meta">ISS-002 &middot; 발견: session-11 &middot; 상태: 미해결</div>
+      </div>
+
+      <div class="issue">
+        <div class="issue-row">
+          <span class="issue-title">ruff 경고 3건 미해결</span>
+          <span class="sev low">낮음</span>
+        </div>
+        <div class="issue-desc">F-003 완료 후 일괄 처리 예정.</div>
+        <div class="issue-meta">ISS-003 &middot; 발견: session-12 &middot; 상태: 보류</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
