@@ -1,9 +1,9 @@
-# {{PROJECT_NAME}} 사용 가이드
+# 장시간 코딩 에이전트 하네스 사용 가이드
 
 ## 목차
 
-1. [프로젝트 개요](#1-프로젝트-개요)
-2. [환경 설정](#2-환경-설정)
+1. [하네스란 무엇인가](#1-하네스란-무엇인가)
+2. [신규 프로젝트에 적용하기](#2-신규-프로젝트에-적용하기)
 3. [세션 운영 방법](#3-세션-운영-방법)
 4. [에이전트 역할별 가이드](#4-에이전트-역할별-가이드)
 5. [검증 체계](#5-검증-체계)
@@ -15,72 +15,117 @@
 
 ---
 
-## 1. 프로젝트 개요
+## 1. 하네스란 무엇인가
 
-### 1.1 이 프로젝트는 무엇인가
+### 1.1 개요
 
-{{PROJECT_NAME}}은 **장시간 코딩 에이전트 하네스**가 적용된 프로젝트입니다. 하네스는 AI 코딩 에이전트(Claude Code 등)가 여러 세션에 걸쳐 안정적으로 작업할 수 있도록 구조, 규칙, 검증, 복구 체계를 제공합니다.
+이 하네스는 AI 코딩 에이전트(Claude Code 등)가 여러 세션에 걸쳐 안정적으로 작업할 수 있도록 구조, 규칙, 검증, 복구 체계를 제공하는 **템플릿 기반 운영 프레임워크**입니다.
 
-### 1.2 기술 스택
+Anthropic의 [Harness Design for Long-Running Application Development](https://www.anthropic.com/engineering/harness-design-long-running-apps) 원칙에 기반합니다.
 
-| 항목 | 값 |
-|------|-----|
-| 런타임 | {{RUNTIME_TYPE}} |
-| 기술 스택 | {{PRIMARY_STACK}} |
-| 주 언어 | {{LANGUAGE_MAIN}} |
-| 패키지 매니저 | {{PACKAGE_MANAGER}} |
-| 기본 브랜치 | {{DEFAULT_BRANCH}} |
-
-### 1.3 핵심 원칙
+### 1.2 핵심 원칙
 
 1. **한 세션, 한 작업** — 세션당 하나의 bounded work item만 처리
 2. **검증 없는 완료 불가** — 실행된 증거만 인정, "looks right"는 불충분
 3. **상태는 파일에 기록** — 대화 컨텍스트가 아닌 저장소 파일에 외부화
 4. **복구가 우선** — smoke 실패 시 기능 개발보다 복구가 우선
+5. **생성과 평가의 분리** — 구현하는 에이전트와 평가하는 에이전트를 분리
+
+### 1.3 에이전트 역할
+
+| 역할 | 담당 | 주요 산출물 |
+|------|------|-----------|
+| **Planner** | 다음 작업 1개 선택, 범위 정의 | `tasks/current_task.json` |
+| **Reviewer** | 계약 사전 검토 + 구현 사후 평가 | 승인/반려 판정 |
+| **Coder** | 승인된 범위 내 구현 + 검증 실행 | 코드, 테스트, 검증 결과 |
+| **Initializer** | 저장소 부트스트랩 정규화 | `init.sh`, 상태 파일 |
 
 ---
 
-## 2. 환경 설정
+## 2. 신규 프로젝트에 적용하기
 
-### 2.1 최초 설정
+### 2.1 템플릿 복사
 
 ```bash
-cd {{REPOSITORY_NAME}}
-
-# 의존성 설치
-{{CMD_INSTALL}}
-
-# 부트스트랩 실행
-{{CMD_BOOTSTRAP}}
-
-# 스모크 검증
-{{CMD_SMOKE}}
+cp -r agent-harness/ my-new-project/
+cd my-new-project/
+rm -rf .git
+git init
 ```
 
-### 2.2 개발 서버 실행
+### 2.2 변수 치환
+
+하네스의 모든 파일에는 `{{VARIABLE_NAME}}` 형식의 플레이스홀더가 있습니다. 이를 프로젝트 실제 값으로 치환해야 합니다.
 
 ```bash
-# 앱 실행
-{{CMD_DEV}}
+# 방법 A: 대화형 — 28개 필수 변수를 하나씩 입력
+bash configure.sh --interactive
 
-# 헬스 체크 확인
-curl {{HEALTHCHECK_URL}}
+# 방법 B: JSON 파일 준비 후 일괄 적용
+bash configure.sh --generate-example                        # 예시 JSON 생성
+vi project_variables.example.json                           # 값 수정
+bash configure.sh --config project_variables.example.json --dry-run  # 미리보기
+bash configure.sh --config project_variables.example.json            # 적용
 ```
 
-### 2.3 테스트 실행
+변수는 다음 카테고리로 구성됩니다:
+
+| 카테고리 | 예시 | 설명 |
+|---------|------|------|
+| 식별 | PROJECT_NAME, REPOSITORY_NAME | 프로젝트 기본 정보 |
+| 런타임 | RUNTIME_TYPE, PRIMARY_STACK | 기술 스택 정보 |
+| 경로 | APP_DIR_NAME, STATE_DIR_NAME | 디렉토리 구조 |
+| 명령 | CMD_INSTALL, CMD_DEV, CMD_SMOKE | 실행 명령어 |
+| 네트워크 | APP_PORT, HEALTHCHECK_URL | 포트 및 엔드포인트 |
+| 정책 | ALLOW_PARALLEL_TASKS, REQUIRE_REVIEW_AGENT | 운영 정책 플래그 |
+| Bootstrap | BOOTSTRAP_ENABLE_INSTALL, BOOTSTRAP_ENABLE_APP_START | 부트스트랩 단계 제어 |
+
+전체 170+개 변수의 상세 정의는 `long_running_agent_harness_variable_dictionary.md`를 참조하세요.
+
+### 2.3 프로젝트 코드 추가
+
+변수 치환 후 실제 프로젝트 코드를 추가합니다:
 
 ```bash
-# 유닛 테스트
-{{CMD_TEST_UNIT}}
+mkdir -p app tests/unit tests/integration
+# 앱 코드, 테스트, 설정 파일 작성
+```
 
-# 통합 테스트
-{{CMD_TEST_INTEGRATION}}
+### 2.4 feature_list.json에 작업 등록
 
-# 린트
-{{CMD_LINT}}
+`feature_list.json`의 템플릿 항목을 실제 작업으로 교체합니다:
 
-# 타입 체크
-{{CMD_TYPECHECK}}
+```json
+{
+  "id": "F-001",
+  "title": "첫 번째 기능",
+  "priority": 1,
+  "status": "not_started",
+  "passes": false,
+  "depends_on": [],
+  "completion_criteria": ["검증 가능한 기준 1", "검증 가능한 기준 2"],
+  "verification_commands": ["테스트 명령어"]
+}
+```
+
+### 2.5 부트스트랩 및 스모크 검증
+
+```bash
+bash ./init.sh                    # 환경 부트스트랩
+bash ./verification/smoke.sh      # 최소 실행 가능 상태 확인
+git add -A && git commit -m "feat: initial harness setup"
+```
+
+### 2.6 적용 체크리스트
+
+```
+[ ] 변수 치환 완료 (grep '{{' 로 남은 플레이스홀더 확인)
+[ ] init.sh 실행 성공
+[ ] smoke.sh 통과
+[ ] feature_list.json에 작업 최소 1개 등록
+[ ] claude-progress.txt 초기 엔트리 작성
+[ ] state/environment.json 실제 값으로 채움
+[ ] .gitignore가 .agent-logs/, .agent-pids/ 제외 확인
 ```
 
 ---
@@ -106,50 +151,24 @@ curl {{HEALTHCHECK_URL}}
 
 세션을 시작할 때 반드시 아래 순서를 따르세요:
 
-```bash
-# 1. 저장소 루트 확인
-pwd
-
-# 2. 진행 상황 읽기
-cat {{PROGRESS_FILE_PATH}}
-
-# 3. 작업 목록 읽기
-cat {{FEATURE_LIST_FILE_PATH}}
-
-# 4. 현재 작업 확인
-cat {{CURRENT_TASK_FILE_PATH}}
-
-# 5. 알려진 이슈 확인
-cat {{KNOWN_ISSUES_FILE_PATH}}
-
-# 6. 최근 git 이력
-git log --oneline -20
-
-# 7. 부트스트랩
-{{CMD_BOOTSTRAP}}
-
-# 8. 스모크 검증
-{{CMD_SMOKE}}
-# → smoke 실패 시 기능 작업 금지, 복구 우선
-```
+1. 저장소 루트 확인
+2. `claude-progress.txt` 읽기 — 이전 세션 이력 확인
+3. `feature_list.json` 읽기 — 작업 상태 확인
+4. `tasks/current_task.json` 읽기 — 진행 중 작업 확인
+5. `state/known_issues.json` 읽기 — 알려진 이슈 확인
+6. `git log --oneline -20` — 최근 변경 확인
+7. `bash ./init.sh` — 부트스트랩
+8. `bash ./verification/smoke.sh` — 스모크 검증
+   - smoke 실패 시 기능 작업 금지, 복구 우선
 
 ### 3.3 세션 종료 절차
 
-```bash
-# 1. 검증 실행
-{{CMD_SMOKE}}
-
-# 2. feature_list.json 상태 업데이트
-
-# 3. claude-progress.txt에 세션 엔트리 추가
-
-# 4. state/session_summary.json 업데이트
-
-# 5. 커밋 (정책 허용 시)
-bash ./scripts/commit_session.sh
-
-# 6. 저장소가 다음 세션에서 재개 가능한 상태인지 확인
-```
+1. 검증 실행 (smoke 최소, 필요 시 verify_all)
+2. `feature_list.json` 작업 상태 업데이트
+3. `claude-progress.txt`에 세션 엔트리 추가 (append-only)
+4. `state/session_summary.json` 업데이트
+5. 커밋 (정책 허용 시 `bash ./scripts/commit_session.sh`)
+6. 저장소가 다음 세션에서 재개 가능한 상태인지 확인
 
 ---
 
@@ -157,7 +176,7 @@ bash ./scripts/commit_session.sh
 
 ### 4.1 Planner (기획)
 
-**파일:** `.claude/agents/planner.md`
+**정의 파일:** `.claude/agents/planner.md`
 
 **역할:**
 - `feature_list.json`과 `tasks/backlog.json`에서 다음 작업 1개 선택
@@ -166,25 +185,13 @@ bash ./scripts/commit_session.sh
 
 **핵심 규칙:**
 - "무엇을(what)" 정의하되 "어떻게(how)"는 coder에게 위임
-- 파일 목록은 참고용, coder가 실제 파일 결정
+- 파일 목록은 참고용, coder가 실제 구현 경로 결정
 - 한 세션에 하나의 작업만 선택
 - smoke 실패 시 기능 작업 대신 복구 작업 선택
 
-**출력 예시:**
-```json
-{
-  "task_id": "F-001",
-  "title": "작업 제목",
-  "in_scope": ["범위 항목 1", "범위 항목 2"],
-  "out_of_scope": ["제외 항목 1"],
-  "acceptance_criteria": ["검증 가능한 기준 1", "검증 가능한 기준 2"],
-  "verification_plan": ["검증 명령 1", "검증 명령 2"]
-}
-```
-
 ### 4.2 Reviewer — Contract Review (계약 검토)
 
-**파일:** `.claude/agents/reviewer.md` — Contract Review Procedure 섹션
+**정의 파일:** `.claude/agents/reviewer.md`
 
 **역할 (구현 전):**
 - planner가 만든 `current_task.json`의 범위, 수용 기준, 검증 계획을 검토
@@ -196,7 +203,7 @@ bash ./scripts/commit_session.sh
 
 ### 4.3 Coder (구현)
 
-**파일:** `.claude/agents/coder.md`
+**정의 파일:** `.claude/agents/coder.md`
 
 **역할:**
 - `current_task.json`에서 승인된 작업만 구현
@@ -211,8 +218,6 @@ bash ./scripts/commit_session.sh
 
 ### 4.4 Reviewer — Implementation Review (구현 검토)
 
-**파일:** `.claude/agents/reviewer.md`
-
 **역할 (구현 후):**
 - 범위 준수, 정확성, 검증 증거, 회귀 위험 평가
 - 가능하면 실행 중인 앱을 직접 테스트 (Runtime Verification)
@@ -225,7 +230,7 @@ bash ./scripts/commit_session.sh
 
 ### 4.5 Initializer (초기화)
 
-**파일:** `.claude/agents/initializer.md`
+**정의 파일:** `.claude/agents/initializer.md`
 
 **역할:**
 - 저장소 부트스트랩 절차 정규화
@@ -238,14 +243,13 @@ bash ./scripts/commit_session.sh
 
 ### 5.1 검증 수준
 
-| 수준 | 명령 | 용도 |
-|------|------|------|
-| **Smoke** | `{{CMD_SMOKE}}` | 최소 실행 가능 상태 확인 (필수 파일, 프로세스, 포트, 헬스체크) |
-| **Unit** | `{{CMD_TEST_UNIT}}` | 단위 테스트 |
-| **Integration** | `{{CMD_TEST_INTEGRATION}}` | 통합 테스트 |
-| **Lint** | `{{CMD_LINT}}` | 코드 스타일 |
-| **Typecheck** | `{{CMD_TYPECHECK}}` | 타입 검사 |
-| **Full** | `{{CMD_VERIFY_ALL}}` | 위 모든 검증 통합 실행 |
+| 수준 | 스크립트/명령 | 용도 |
+|------|-------------|------|
+| **Smoke** | `verification/smoke.sh` | 최소 실행 가능 상태 확인 (필수 파일, 프로세스, 포트, 헬스체크) |
+| **Unit** | 프로젝트별 테스트 명령 | 단위 테스트 |
+| **Integration** | 프로젝트별 테스트 명령 | 통합 테스트 (DB, API 포함) |
+| **Lint / Typecheck** | 프로젝트별 린트/타입 명령 | 코드 품질 |
+| **Full** | `verification/verify_all.sh` | 위 모든 검증 통합 실행 |
 
 ### 5.2 8단계 품질 게이트
 
@@ -264,7 +268,7 @@ bash ./scripts/commit_session.sh
 
 - **실행된 증거만 인정** — "예정된 체크"는 증거가 아님
 - **smoke는 baseline** — 기능 정확성 전체를 대체하지 않음
-- **core 변경 시 full verify** — 공유 코드 변경 시 `{{CMD_VERIFY_ALL}}` 실행
+- **core 변경 시 full verify** — 공유 코드 변경 시 `verify_all.sh` 실행
 - **건너뛴 체크는 명시적으로 기록**
 
 ---
@@ -275,24 +279,24 @@ bash ./scripts/commit_session.sh
 
 | 파일 | 역할 | 갱신 시점 |
 |------|------|----------|
-| `{{PROGRESS_FILE_PATH}}` | 세션별 진행 이력 (append-only) | 매 세션 종료 시 |
-| `{{FEATURE_LIST_FILE_PATH}}` | 작업 목록 + 완료 상태 | 작업 상태 변경 시 |
-| `{{CURRENT_TASK_FILE_PATH}}` | 현재 세션의 단일 작업 | planner가 선택 시 |
-| `{{BACKLOG_FILE_PATH}}` | 장기 작업 후보 | 작업 추가/정리 시 |
-| `{{SESSION_SUMMARY_FILE_PATH}}` | 세션 결과 요약 | 매 세션 종료 시 |
-| `{{KNOWN_ISSUES_FILE_PATH}}` | 알려진 이슈 레지스트리 | 이슈 발견/해결 시 |
-| `{{ENVIRONMENT_FILE_PATH}}` | 런타임 환경 정보 | 환경 변경 시 |
+| `claude-progress.txt` | 세션별 진행 이력 (append-only) | 매 세션 종료 시 |
+| `feature_list.json` | 작업 목록 + 완료 상태 | 작업 상태 변경 시 |
+| `tasks/current_task.json` | 현재 세션의 단일 작업 | planner가 선택 시 |
+| `tasks/backlog.json` | 장기 작업 후보 | 작업 추가/정리 시 |
+| `state/session_summary.json` | 세션 결과 요약 | 매 세션 종료 시 |
+| `state/known_issues.json` | 알려진 이슈 레지스트리 | 이슈 발견/해결 시 |
+| `state/environment.json` | 런타임 환경 정보 | 환경 변경 시 |
 | `state/qa_tuning_log.json` | reviewer QA 효과 추적 | 놓친 이슈 발견 시 |
 
 ### 6.2 claude-progress.txt 작성 예시
 
 ```
 ================================================================
-Session: {{SESSION_TIMESTAMP}}
+Session: 2026-04-10T10:00:00+09:00
 Session Type: coding
-Project: {{PROJECT_NAME}}
-Repository: {{REPOSITORY_NAME}}
-Branch: {{DEFAULT_BRANCH}}
+Project: my-project
+Repository: my-project
+Branch: main
 ================================================================
 
 Selected Work Item: F-001
@@ -306,8 +310,8 @@ Files Changed:
 - path/to/file.py (신규 또는 수정)
 
 Verification Executed:
-- {{CMD_TEST_UNIT}} → passed
-- {{CMD_SMOKE}} → passed
+- pytest tests/unit -q → passed
+- bash ./verification/smoke.sh → passed
 
 Result: passed
 Reviewer Status: approved
@@ -324,23 +328,13 @@ Recommended Next Step: 다음 작업 설명
 
 ### 7.1 smoke 실패 시
 
-```bash
-# 1. 상태 수집
-{{CMD_COLLECT_STATUS}}
-
-# 2. 원인 진단
-cat {{STATE_DIR_NAME}}/{{STATUS_REPORT_FILENAME}}
-
-# 3. 복구 시도
-# (a) 직접 수정 가능하면 수정
-# (b) 불가능하면 롤백
-bash ./scripts/rollback_last_good.sh HEAD~1 "smoke failure recovery"
-
-# 4. 복구 후 재검증
-{{CMD_SMOKE}}
-
-# 5. known_issues.json에 이슈 기록
-```
+1. `bash ./scripts/collect_status.sh` — 현재 상태 수집
+2. 상태 리포트 확인 — 원인 진단
+3. 복구 시도
+   - 직접 수정 가능하면 수정
+   - 불가능하면 롤백: `bash ./scripts/rollback_last_good.sh HEAD~1 "사유"`
+4. `bash ./verification/smoke.sh` — 복구 후 재검증
+5. `state/known_issues.json`에 이슈 기록
 
 ### 7.2 롤백 모드
 
@@ -386,7 +380,7 @@ bash ./scripts/rollback_last_good.sh HEAD~1 "smoke failure recovery"
   "risk": "low",
   "depends_on": [],
   "completion_criteria": ["검증 가능한 기준 1", "검증 가능한 기준 2"],
-  "verification_commands": ["검증 명령"]
+  "verification_commands": ["테스트 명령어"]
 }
 ```
 
@@ -439,12 +433,12 @@ bash ./scripts/rollback_last_good.sh HEAD~1 "smoke failure recovery"
 
 ```
 세션 시작
-  ├─ {{CMD_SMOKE}} → FAILED
+  ├─ bash ./verification/smoke.sh → FAILED
   ├─ 기능 작업 시작 금지!
-  ├─ {{CMD_COLLECT_STATUS}}
+  ├─ bash ./scripts/collect_status.sh
   ├─ 원인 진단 및 해결
-  ├─ {{CMD_BOOTSTRAP}} (재시작)
-  ├─ {{CMD_SMOKE}} → PASSED
+  ├─ bash ./init.sh (재시작)
+  ├─ bash ./verification/smoke.sh → PASSED
   ├─ known_issues.json에 기록
   └─ claude-progress.txt에 recovery 세션 기록
 ```
@@ -481,7 +475,7 @@ Reviewer (재검토):
 
 ### Q: 모든 작업에 reviewer가 필요한가요?
 
-`{{REQUIRE_REVIEW_AGENT}} = true`로 설정되어 있으면 필요합니다. 급한 hotfix 등 예외 시 coder가 자기 검토를 수행하되, 반드시 검토 내용을 기록해야 합니다.
+`REQUIRE_REVIEW_AGENT` 정책이 `true`이면 필요합니다. 급한 hotfix 등 예외 시 coder가 자기 검토를 수행하되, 반드시 검토 내용을 기록해야 합니다.
 
 ### Q: 테스트가 없는 작업도 통과할 수 있나요?
 
@@ -493,7 +487,7 @@ Reviewer (재검토):
 
 ### Q: 여러 에이전트를 동시에 실행할 수 있나요?
 
-`{{ALLOW_PARALLEL_TASKS}} = false`이면 불가합니다. 한 번에 하나의 세션, 하나의 작업이 원칙입니다.
+`ALLOW_PARALLEL_TASKS` 정책이 `false`이면 불가합니다. 한 번에 하나의 세션, 하나의 작업이 원칙입니다.
 
 ### Q: 하네스의 규칙이 너무 엄격하면 어떻게 하나요?
 
@@ -507,6 +501,7 @@ Reviewer (재검토):
 |------|------|
 | `AGENTS.md` | 하네스 운영 정책 (모든 규칙의 기준) |
 | `init.sh` | 부트스트랩 진입점 |
+| `configure.sh` | 템플릿 변수 치환 도구 |
 | `claude-progress.txt` | 세션 이력 (append-only) |
 | `feature_list.json` | 작업 목록 + 상태 |
 | `tasks/current_task.json` | 현재 작업 상세 |
@@ -521,5 +516,7 @@ Reviewer (재검토):
 | `docs/runbook.md` | 운영 절차 |
 | `docs/quality_gates.md` | 품질 게이트 정의 |
 | `docs/harness_assumptions.md` | 하네스 진화 가정 |
+| `long_running_agent_harness.md` | 한국어 표준 문서 |
+| `long_running_agent_harness_variable_dictionary.md` | 변수 사전 (170+개) |
 | `.claude/agents/*.md` | 에이전트 역할 정의 |
 | `.claude/skills/*/SKILL.md` | 재사용 가능 절차 |
