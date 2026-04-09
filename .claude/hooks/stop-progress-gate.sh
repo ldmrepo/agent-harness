@@ -4,6 +4,8 @@ set -euo pipefail
 # stop-progress-gate.sh
 # Stop hook: Block session stop if no progress entry exists for today.
 
+INPUT=$(cat)
+
 ROOT_DIR="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 PROGRESS_FILE="${ROOT_DIR}/claude-progress.txt"
 
@@ -18,7 +20,6 @@ if grep -q "$TODAY" "$PROGRESS_FILE"; then
   exit 0
 fi
 
-INPUT=$(cat)
 STOP_HOOK_ACTIVE=$(echo "$INPUT" | python3 -c "
 import json, sys
 try:

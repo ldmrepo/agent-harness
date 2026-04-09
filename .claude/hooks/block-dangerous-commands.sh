@@ -10,7 +10,7 @@ COMMAND=$(echo "$INPUT" | python3 -c "import json,sys; d=json.load(sys.stdin); p
 BLOCKED=false
 REASON=""
 
-if echo "$COMMAND" | grep -qE 'rm\s+(-[a-zA-Z]*r[a-zA-Z]*f|--recursive.*--force|-rf|-fr)'; then
+if echo "$COMMAND" | grep -qE 'rm\s+(-[a-zA-Z]*r[a-zA-Z]*f|--recursive.*--force|-rf|-fr|-r\s+-f|-f\s+-r)'; then
   BLOCKED=true
   REASON="rm -rf is blocked by harness policy."
 fi

@@ -5,6 +5,8 @@ set -euo pipefail
 # PreToolUse hook: Block Edit/Write on app code when smoke is failing.
 # Allows edits to verification/, scripts/, state/, .claude/ for recovery.
 
+INPUT=$(cat)
+
 ROOT_DIR="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 SMOKE_REPORT="${ROOT_DIR}/state/smoke_report.json"
 
@@ -23,7 +25,6 @@ except:
 ")
 
 if [ "$SMOKE_RESULT" = "failed" ]; then
-  INPUT=$(cat)
   FILE_PATH=$(echo "$INPUT" | python3 -c "
 import json, sys
 d = json.load(sys.stdin)

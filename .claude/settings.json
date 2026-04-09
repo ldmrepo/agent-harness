@@ -41,12 +41,7 @@
             "type": "command",
             "command": "bash .claude/hooks/check-smoke-before-edit.sh",
             "timeout": 10
-          }
-        ]
-      },
-      {
-        "matcher": "Edit|Write",
-        "hooks": [
+          },
           {
             "type": "command",
             "command": "bash .claude/hooks/check-contract-before-edit.sh",

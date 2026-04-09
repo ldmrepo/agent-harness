@@ -5,6 +5,8 @@ set -euo pipefail
 # PreToolUse hook: Block Edit/Write on app code when contract is not approved.
 # Allows edits to tasks/, state/, .claude/, docs/, verification/, scripts/.
 
+INPUT=$(cat)
+
 ROOT_DIR="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 CURRENT_TASK="${ROOT_DIR}/tasks/current_task.json"
 
@@ -28,7 +30,6 @@ if [ "$CONTRACT_STATUS" = "approved" ] || [ "$CONTRACT_STATUS" = "not_required" 
   exit 0
 fi
 
-INPUT=$(cat)
 FILE_PATH=$(echo "$INPUT" | python3 -c "
 import json, sys
 d = json.load(sys.stdin)

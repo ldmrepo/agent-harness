@@ -224,7 +224,13 @@ determine_next_action() {
     return
   fi
 
-  # 8. 작업 완료 → 다음 작업 선택
+  # 8. 작업 blocked → planner에게 다른 작업 선택 요청
+  if [ "$task_status" = "blocked" ]; then
+    echo "planner_blocked"
+    return
+  fi
+
+  # 9. 작업 완료 → 다음 작업 선택
   if [ "$task_status" = "passed" ]; then
     echo "planner"
     return
@@ -249,6 +255,9 @@ while ! should_stop; do
       ;;
     planner_revise)
       run_agent "planner" "tasks/current_task.json의 계약이 반려되었습니다. contract_review_notes를 읽고 범위/기준/검증계획을 수정한 뒤 contract_status를 pending_review로 재설정하세요." || true
+      ;;
+    planner_blocked)
+      run_agent "planner" "현재 작업이 blocked 상태입니다. known_issues.json과 current_task.json의 blocked_reason을 확인하세요. 블로커를 해결할 수 없으면 다른 작업을 선택하세요." || true
       ;;
     reviewer_contract)
       run_agent "reviewer" "tasks/current_task.json의 계약을 검토하세요. 범위, 수용 기준, 검증 계획의 명확성과 실행 가능성을 평가하고 contract_status를 approved, rejected, 또는 revision_needed로 설정하세요." || true
